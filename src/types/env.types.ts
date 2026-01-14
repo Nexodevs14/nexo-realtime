@@ -8,6 +8,7 @@ export type NodeEnv = "development" | "production" | "test";
  */
 export interface EnvConfig {
     appName: string;
+    appUrl: string;
     nodeEnv: NodeEnv;
     port: number;
     corsOrigin: string;
