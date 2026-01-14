@@ -8,6 +8,9 @@ import { JwtSocketAuthenticator } from "@/infrastructure/jwt-socket-authenticato
 import { LegalBasisExportNotifier } from "@/services/legal-basis-export-notifier";
 import { LegalBasisRealtimeController } from "@/controllers/legal-basis-realtime.controller";
 import { createLegalBasisRealtimeRoutes } from "@/routes/legal-basis-realtime.routes";
+import { NotificationRealtimeNotifier } from "@/services/notification-realtime-notifier";
+import { NotificationRealtimeController } from "@/controllers/notification-realtime.controller";
+import { createNotificationRealtimeRoutes } from "@/routes/notification-realtime.routes";
 import { notFoundHandler } from "@/middlewares/not-found.middleware";
 import { errorHandler } from "@/middlewares/error-handler";
 
@@ -54,14 +57,22 @@ async function bootstrap(): Promise<void> {
    * ------------------------------------------------------------------------
    */
   const legalBasisNotifier = new LegalBasisExportNotifier(realtimeGateway);
+  const notificationNotifier = new NotificationRealtimeNotifier(
+    realtimeGateway
+  );
 
   /**
    * ------------------------------------------------------------------------
    * Controllers
    * ------------------------------------------------------------------------
    */
-  const legalBasisRealtimeController =
-    new LegalBasisRealtimeController(legalBasisNotifier);
+  const legalBasisRealtimeController = new LegalBasisRealtimeController(
+    legalBasisNotifier
+  );
+
+  const notificationRealtimeController = new NotificationRealtimeController(
+    notificationNotifier
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -71,6 +82,11 @@ async function bootstrap(): Promise<void> {
   app.use(
     "/api/v1/realtime",
     createLegalBasisRealtimeRoutes(legalBasisRealtimeController)
+  );
+
+  app.use(
+    "/api/v1/realtime",
+    createNotificationRealtimeRoutes(notificationRealtimeController)
   );
 
   /**
@@ -97,7 +113,7 @@ async function bootstrap(): Promise<void> {
    */
   server.listen(env.port, () => {
     console.log(
-      `🚀 ${env.appName} running on http://localhost:${env.port} (${env.nodeEnv})`
+      `🚀 ${env.appName} running on ${env.appUrl}:${env.port} (${env.nodeEnv})`
     );
   });
 

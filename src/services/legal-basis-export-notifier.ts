@@ -1,7 +1,7 @@
 import { RealtimeGateway } from "@/interfaces/realtime-gateway";
 import { Notifier } from "@/interfaces/notifier";
 import { RealtimeEventEnum } from "@/enums/realtime-events";
-import { LegalBasisExportCompletedPayload } from "@/types/realtime.types";
+import { LegalBasisExportCompletedPayload } from "@/types/legal-basis-realtime.types";
 
 /**
  * Handles notification logic when a LegalBasis export is completed.

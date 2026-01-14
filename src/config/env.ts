@@ -28,6 +28,7 @@ function required(name: string): string {
  */
 export const env: EnvConfig = {
   appName: required("APP_NAME"),
+  appUrl: required("APP_URL"),
   nodeEnv: required("NODE_ENV") as NodeEnv,
   port: Number(required("PORT")),
   corsOrigin: required("CORS_ORIGIN"),
