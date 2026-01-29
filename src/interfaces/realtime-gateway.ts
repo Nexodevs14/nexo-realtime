@@ -3,7 +3,6 @@
  * Transport-agnostic.
  */
 export interface RealtimeGateway {
-
   /**
    * Emit an event to a specific user.
    *
@@ -12,4 +11,20 @@ export interface RealtimeGateway {
    * @param payload - The data to include in the event.
    */
   emitToUser<T>(userId: number, event: string, payload: T): void;
+
+  /**
+   *
+   * Emit an event to all connected clients.
+   * @param event - The name of the event to emit.
+   * @param payload - The data to include in the event.
+   */
+  broadcast<T>(event: string, payload: T): void;
+
+  /**   * Emit an event to all clients in a specific room.
+   *
+   * @param room - The room to which the event should be broadcasted.
+   * @param event - The name of the event to emit.
+   * @param payload - The data to include in the event.
+   */
+  broadcastToRoom<T>(room: string, event: string, payload: T): void;
 }

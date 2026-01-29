@@ -6,17 +6,13 @@ import { NotificationChangePayload } from "@/validators/notification-realtime.va
 /**
  * Emits realtime notification update signals.
  */
-export class NotificationRealtimeNotifier
-  implements Notifier<NotificationChangePayload>
-{
+export class NotificationRealtimeNotifier implements Notifier<NotificationChangePayload> {
   /**
    * NotificationRealtimeNotifier constructor
-   * 
+   *
    * @param realtimeGateway Realtime gateway implementation
    */
-  constructor(
-    private readonly realtimeGateway: RealtimeGateway
-  ) {}
+  constructor(private readonly realtimeGateway: RealtimeGateway) {}
 
   /**
    * Notify user about notification changes.
@@ -27,7 +23,7 @@ export class NotificationRealtimeNotifier
       RealtimeEventEnum.NOTIFICATIONS_UPDATED,
       {
         action: payload.action,
-      }
+      },
     );
   }
 }

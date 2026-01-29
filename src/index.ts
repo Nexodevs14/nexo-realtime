@@ -11,6 +11,9 @@ import { createLegalBasisRealtimeRoutes } from "@/routes/legal-basis-realtime.ro
 import { NotificationRealtimeNotifier } from "@/services/notification-realtime-notifier";
 import { NotificationRealtimeController } from "@/controllers/notification-realtime.controller";
 import { createNotificationRealtimeRoutes } from "@/routes/notification-realtime.routes";
+import { FormDuplicatedNotifier } from "@/services/form-duplicated-notifier";
+import { FormRealtimeController } from "@/controllers/form-realtime.controller";
+import { createFormRealtimeRoutes } from "@/routes/form-realtime.routes";
 import { notFoundHandler } from "@/middlewares/not-found.middleware";
 import { errorHandler } from "@/middlewares/error-handler";
 
@@ -60,6 +63,7 @@ async function bootstrap(): Promise<void> {
   const notificationNotifier = new NotificationRealtimeNotifier(
     realtimeGateway
   );
+  const formDuplicatedNotifier = new FormDuplicatedNotifier(realtimeGateway);
 
   /**
    * ------------------------------------------------------------------------
@@ -72,6 +76,10 @@ async function bootstrap(): Promise<void> {
 
   const notificationRealtimeController = new NotificationRealtimeController(
     notificationNotifier
+  );
+
+  const formRealtimeController = new FormRealtimeController(
+    formDuplicatedNotifier
   );
 
   /**
@@ -89,6 +97,11 @@ async function bootstrap(): Promise<void> {
     createNotificationRealtimeRoutes(notificationRealtimeController)
   );
 
+  app.use(
+    "/api/v1/realtime",
+    createFormRealtimeRoutes(formRealtimeController)
+  );
+  
   /**
    * ------------------------------------------------------------------------
    * Health Check

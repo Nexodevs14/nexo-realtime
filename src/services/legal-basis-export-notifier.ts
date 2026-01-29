@@ -6,17 +6,12 @@ import { LegalBasisExportCompletedPayload } from "@/types/legal-basis-realtime.t
 /**
  * Handles notification logic when a LegalBasis export is completed.
  */
-export class LegalBasisExportNotifier
-  implements Notifier<LegalBasisExportCompletedPayload>
-{
-
+export class LegalBasisExportNotifier implements Notifier<LegalBasisExportCompletedPayload> {
   /**
    * Creates an instance of LegalBasisExportNotifier.
    * @param realtimeGateway - The RealtimeGateway instance to use for notifications.
    */
-  constructor(
-    private readonly realtimeGateway: RealtimeGateway
-  ) {}
+  constructor(private readonly realtimeGateway: RealtimeGateway) {}
 
   /**
    * Notifies the user when a LegalBasis export is completed.
@@ -25,7 +20,7 @@ export class LegalBasisExportNotifier
     this.realtimeGateway.emitToUser(
       payload.userId,
       RealtimeEventEnum.LEGAL_BASIS_EXPORT_COMPLETED,
-      payload
+      payload,
     );
   }
 }

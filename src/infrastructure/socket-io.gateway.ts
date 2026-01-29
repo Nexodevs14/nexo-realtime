@@ -22,26 +22,24 @@ export class SocketIoGateway implements RealtimeGateway {
   constructor(private readonly io: Server) {}
 
   /**
-   * Emits a real-time event to a specific user.
-   *
-   * Users are addressed via a deterministic room name:
-   * `user:{userId}`
-   *
-   * This allows:
-   * - Multiple connections per user
-   * - Horizontal scaling (with adapters like Redis later)
-   *
-   * @template T - Payload type
-   * @param userId - Unique identifier of the target user
-   * @param event - Realtime event name
-   * @param payload - Data associated with the event
+   * @inheritdoc
    */
-  emitToUser<T>(
-    userId: number,
-    event: RealtimeEventEnum,
-    payload: T
-  ): void {
+  emitToUser<T>(userId: number, event: RealtimeEventEnum, payload: T): void {
     const room = this.getUserRoom(userId);
+    this.io.to(room).emit(event, payload);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  broadcast<T>(event: RealtimeEventEnum, payload: T): void {
+    this.io.emit(event, payload);
+  }
+
+  /**
+   * @inheritdoc
+   */
+  broadcastToRoom<T>(room: string, event: string, payload: T): void {
     this.io.to(room).emit(event, payload);
   }
 
