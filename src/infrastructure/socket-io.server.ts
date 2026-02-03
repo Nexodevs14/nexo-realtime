@@ -43,7 +43,7 @@ export async function initSocketIo(
       next();
     } catch (error) {
       if (error instanceof UnauthorizedError) {
-       throw error;
+         return next(error);
       }
       next(new UnexpectedError("Socket authentication failed"));
     }
