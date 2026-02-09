@@ -1,21 +1,21 @@
-import http from "http";
-import type { Server as HttpServer } from "http";
-import { createApp } from "@/app";
-import { env } from "@/config/env";
-import { initSocketIo } from "@/infrastructure/socket-io.server";
-import { SocketIoGateway } from "@/infrastructure/socket-io.gateway";
-import { JwtSocketAuthenticator } from "@/infrastructure/jwt-socket-authenticator";
-import { LegalBasisExportNotifier } from "@/services/legal-basis-export-notifier";
-import { LegalBasisRealtimeController } from "@/controllers/legal-basis-realtime.controller";
-import { createLegalBasisRealtimeRoutes } from "@/routes/legal-basis-realtime.routes";
-import { NotificationRealtimeNotifier } from "@/services/notification-realtime-notifier";
-import { NotificationRealtimeController } from "@/controllers/notification-realtime.controller";
-import { createNotificationRealtimeRoutes } from "@/routes/notification-realtime.routes";
-import { FormDuplicatedNotifier } from "@/services/form-duplicated-notifier";
-import { FormRealtimeController } from "@/controllers/form-realtime.controller";
-import { createFormRealtimeRoutes } from "@/routes/form-realtime.routes";
-import { notFoundHandler } from "@/middlewares/not-found.middleware";
-import { errorHandler } from "@/middlewares/error-handler";
+import http from 'http';
+import type { Server as HttpServer } from 'http';
+import { createApp } from '@/app';
+import { env } from '@/config/env';
+import { initSocketIo } from '@/infrastructure/socket-io.server';
+import { SocketIoGateway } from '@/infrastructure/socket-io.gateway';
+import { JwtSocketAuthenticator } from '@/infrastructure/jwt-socket-authenticator';
+import { LegalBasisExportNotifier } from '@/services/legal-basis-export-notifier';
+import { LegalBasisRealtimeController } from '@/controllers/legal-basis-realtime.controller';
+import { createLegalBasisRealtimeRoutes } from '@/routes/legal-basis-realtime.routes';
+import { NotificationRealtimeNotifier } from '@/services/notification-realtime-notifier';
+import { NotificationRealtimeController } from '@/controllers/notification-realtime.controller';
+import { createNotificationRealtimeRoutes } from '@/routes/notification-realtime.routes';
+import { FormDuplicatedNotifier } from '@/services/form-duplicated-notifier';
+import { FormRealtimeController } from '@/controllers/form-realtime.controller';
+import { createFormRealtimeRoutes } from '@/routes/form-realtime.routes';
+import { notFoundHandler } from '@/middlewares/not-found.middleware';
+import { errorHandler } from '@/middlewares/error-handler';
 
 /**
  * --------------------------------------------------------------------------
@@ -60,9 +60,7 @@ async function bootstrap(): Promise<void> {
    * ------------------------------------------------------------------------
    */
   const legalBasisNotifier = new LegalBasisExportNotifier(realtimeGateway);
-  const notificationNotifier = new NotificationRealtimeNotifier(
-    realtimeGateway
-  );
+  const notificationNotifier = new NotificationRealtimeNotifier(realtimeGateway);
   const formDuplicatedNotifier = new FormDuplicatedNotifier(realtimeGateway);
 
   /**
@@ -70,45 +68,30 @@ async function bootstrap(): Promise<void> {
    * Controllers
    * ------------------------------------------------------------------------
    */
-  const legalBasisRealtimeController = new LegalBasisRealtimeController(
-    legalBasisNotifier
-  );
+  const legalBasisRealtimeController = new LegalBasisRealtimeController(legalBasisNotifier);
 
-  const notificationRealtimeController = new NotificationRealtimeController(
-    notificationNotifier
-  );
+  const notificationRealtimeController = new NotificationRealtimeController(notificationNotifier);
 
-  const formRealtimeController = new FormRealtimeController(
-    formDuplicatedNotifier
-  );
+  const formRealtimeController = new FormRealtimeController(formDuplicatedNotifier);
 
   /**
    * ------------------------------------------------------------------------
    * Routes
    * ------------------------------------------------------------------------
    */
-  app.use(
-    "/api/v1/realtime",
-    createLegalBasisRealtimeRoutes(legalBasisRealtimeController)
-  );
+  app.use('/api/v1/realtime', createLegalBasisRealtimeRoutes(legalBasisRealtimeController));
 
-  app.use(
-    "/api/v1/realtime",
-    createNotificationRealtimeRoutes(notificationRealtimeController)
-  );
+  app.use('/api/v1/realtime', createNotificationRealtimeRoutes(notificationRealtimeController));
 
-  app.use(
-    "/api/v1/realtime",
-    createFormRealtimeRoutes(formRealtimeController)
-  );
-  
+  app.use('/api/v1/realtime', createFormRealtimeRoutes(formRealtimeController));
+
   /**
    * ------------------------------------------------------------------------
    * Health Check
    * ------------------------------------------------------------------------
    */
-  app.get("/api/v1/health", (_req, res) => {
-    res.status(200).json({ status: "ok" });
+  app.get('/api/v1/health', (_req, res) => {
+    res.status(200).json({ status: 'ok' });
   });
 
   /**
@@ -125,9 +108,7 @@ async function bootstrap(): Promise<void> {
    * ------------------------------------------------------------------------
    */
   server.listen(env.port, () => {
-    console.log(
-      `🚀 ${env.appName} running on ${env.appUrl}:${env.port} (${env.nodeEnv})`
-    );
+    console.log(`🚀 ${env.appName} running on ${env.appUrl}:${env.port} (${env.nodeEnv})`);
   });
 
   /**
@@ -139,19 +120,19 @@ async function bootstrap(): Promise<void> {
     console.log(`🛑 ${signal} received. Shutting down server...`);
 
     server.close(() => {
-      console.log("✅ HTTP server closed");
+      console.log('✅ HTTP server closed');
       process.exit(0);
     });
   };
 
-  process.on("SIGTERM", shutdown);
-  process.on("SIGINT", shutdown);
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
 }
 
 /**
  * Bootstrap execution
  */
 bootstrap().catch((error) => {
-  console.error("❌ Failed to bootstrap application", error);
+  console.error('❌ Failed to bootstrap application', error);
   process.exit(1);
 });

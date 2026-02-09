@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from "express";
-import { ZodError } from "zod";
-import { NotificationRealtimeNotifier } from "@/services/notification-realtime-notifier";
-import { NotificationChangeSchema } from "@/validators/notification-realtime.validators";
-import { ValidationError } from "@/errors/api.errors";
-import { ApiResponse, ok } from "@/types/http.types";
+import { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
+import { NotificationRealtimeNotifier } from '@/services/notification-realtime-notifier';
+import { NotificationChangeSchema } from '@/validators/notification-realtime.validators';
+import { ValidationError } from '@/errors/api.errors';
+import { ApiResponse, ok } from '@/types/http.types';
 
 /**
  * Notification Realtime Controller.
@@ -11,12 +11,10 @@ import { ApiResponse, ok } from "@/types/http.types";
 export class NotificationRealtimeController {
   /**
    * NotificationRealtimeController constructor
-   * 
+   *
    * @param notifier Notification realtime notifier
    */
-  constructor(
-    private readonly notifier: NotificationRealtimeNotifier
-  ) {}
+  constructor(private readonly notifier: NotificationRealtimeNotifier) {}
 
   /**
    * Handles notification change events.
@@ -29,13 +27,13 @@ export class NotificationRealtimeController {
     try {
       const payload = NotificationChangeSchema.parse(req.body);
       this.notifier.notify(payload);
-      ok(res, null, "Notification realtime event dispatched");
+      ok(res, null, 'Notification realtime event dispatched');
     } catch (error) {
       if (error instanceof ZodError) {
         return next(
           new ValidationError(
             error.issues.map((err) => ({
-              field: err.path.join("."),
+              field: err.path.join('.'),
               message: err.message,
             }))
           )

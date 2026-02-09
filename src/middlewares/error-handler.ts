@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { ApiErrorResponse, error } from "@/types/http.types";
-import { AppError } from "@/errors/api.errors";
+import { Request, Response, NextFunction } from 'express';
+import { ApiErrorResponse, error } from '@/types/http.types';
+import { AppError } from '@/errors/api.errors';
 
 /**
  * Global error handler middleware.
@@ -15,19 +15,9 @@ export function errorHandler(
   _next: NextFunction
 ): void {
   if (err instanceof AppError) {
-    error(
-      res,
-      err.message,
-      err.statusCode,
-      err.errors
-    );
+    error(res, err.message, err.statusCode, err.errors);
     return;
   }
 
-  error(
-    res,
-    "Internal server error",
-    500,
-    [{ message: "Unexpected error" }]
-  );
+  error(res, 'Internal server error', 500, [{ message: 'Unexpected error' }]);
 }

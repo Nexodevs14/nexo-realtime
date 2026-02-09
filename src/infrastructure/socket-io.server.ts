@@ -1,9 +1,9 @@
-import { Server, Socket } from "socket.io";
-import { SocketAuthenticator } from "@/interfaces/socket-authenticator";
-import { createRedisAdapter } from "@/infrastructure/socket-io.redis-adapter";
-import type { Server as HttpServer } from "http";
-import { env } from "@/config/env";
-import { UnauthorizedError, UnexpectedError } from "@/errors/api.errors";
+import { Server, Socket } from 'socket.io';
+import { SocketAuthenticator } from '@/interfaces/socket-authenticator';
+import { createRedisAdapter } from '@/infrastructure/socket-io.redis-adapter';
+import type { Server as HttpServer } from 'http';
+import { env } from '@/config/env';
+import { UnauthorizedError, UnexpectedError } from '@/errors/api.errors';
 
 /**
  * Socket.IO Server Bootstrap
@@ -43,9 +43,9 @@ export async function initSocketIo(
       next();
     } catch (error) {
       if (error instanceof UnauthorizedError) {
-         return next(error);
+        return next(error);
       }
-      next(new UnexpectedError("Socket authentication failed"));
+      next(new UnexpectedError('Socket authentication failed'));
     }
   });
   registerConnectionHandlers(io);
@@ -59,7 +59,7 @@ export async function initSocketIo(
  */
 export function getSocketIo(): Server {
   if (!io) {
-    throw new UnexpectedError("Socket.IO has not been initialized");
+    throw new UnexpectedError('Socket.IO has not been initialized');
   }
 
   return io;
@@ -71,7 +71,7 @@ export function getSocketIo(): Server {
  * @param io - Socket.IO server
  */
 function registerConnectionHandlers(io: Server): void {
-  io.on("connection", (socket: Socket) => {
+  io.on('connection', (socket: Socket) => {
     const userId = socket.data.userId;
     if (!userId) {
       socket.disconnect(true);
@@ -79,7 +79,7 @@ function registerConnectionHandlers(io: Server): void {
     }
     const room = buildUserRoom(userId);
     socket.join(room);
-    socket.on("disconnect", () => {
+    socket.on('disconnect', () => {
       socket.leave(room);
     });
   });

@@ -5,7 +5,6 @@
  * (real-time event, email, push, etc.).
  */
 export interface Notifier<TPayload> {
-
   /**
    * Notify about an event.
    *

@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Response } from 'express';
 
 /**
  * Standard successful API response.
@@ -51,7 +51,7 @@ export type ApiError = {
 export function ok<T>(
   res: Response,
   data: T,
-  message = "OK",
+  message = 'OK',
   code = 200
 ): Response<ApiSuccessResponse<T>> {
   return res.status(code).json({

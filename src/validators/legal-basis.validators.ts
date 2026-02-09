@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Schema for LegalBasis export completed event.
@@ -6,12 +6,11 @@ import { z } from "zod";
 export const LegalBasisExportCompletedSchema = z.object({
   userId: z.number(),
   legalBasisId: z.number(),
-  legalBasisName: z.string(),   
+  legalBasisName: z.string(),
   fileUrl: z.url(),
 });
 
 /**
  * Inferred TypeScript type from schema.
  */
-export type LegalBasisExportCompletedPayload =
-  z.infer<typeof LegalBasisExportCompletedSchema>;
+export type LegalBasisExportCompletedPayload = z.infer<typeof LegalBasisExportCompletedSchema>;

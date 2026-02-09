@@ -1,4 +1,3 @@
-
 # Guía de Contribución – EHS ACM Suite
 
 ¡Gracias por contribuir a **EHS ACM Suite**!  
@@ -8,11 +7,11 @@ Para mantener un flujo de trabajo limpio y seguro, sigue las siguientes reglas a
 
 ## 🪢 Ramas principales
 
-| Rama         | Descripción                                      | Reglas de Push                |
-|---------------|--------------------------------------------------|-------------------------------|
-| `main`        | Producción – Código estable y listo para deploy. | ❌ **Prohibido push directo**  |
-| `staging`     | Pre-producción / QA.                            | ❌ **Prohibido push directo**  |
-| `development` | Integración de código en desarrollo.             | ✅ Se permiten merges con PRs  |
+| Rama          | Descripción                                      | Reglas de Push                |
+| ------------- | ------------------------------------------------ | ----------------------------- |
+| `main`        | Producción – Código estable y listo para deploy. | ❌ **Prohibido push directo** |
+| `staging`     | Pre-producción / QA.                             | ❌ **Prohibido push directo** |
+| `development` | Integración de código en desarrollo.             | ✅ Se permiten merges con PRs |
 
 - **`main`** solo recibe merges desde `staging` cuando se libera una nueva versión estable.
 - **`staging`** recibe merges desde `development` para pruebas y QA.
@@ -24,25 +23,27 @@ Para mantener un flujo de trabajo limpio y seguro, sigue las siguientes reglas a
 
 Cada cambio debe realizarse en **ramas individuales** a partir de `development`, según el tipo de trabajo:
 
-| Tipo            | Prefijo sugerido          | Ejemplo                         |
-|------------------|---------------------------|----------------------------------|
-| Nuevas Features   | `feature/`                | `feature/login-form`             |
-| Corrección de Bugs| `bugfix/`                 | `bugfix/fix-login-redirect`      |
-| Refactors         | `refactor/`               | `refactor/optimize-dashboard`    |
-| Hotfix en Prod    | `hotfix/`                 | `hotfix/fix-prod-env`            |
+| Tipo               | Prefijo sugerido | Ejemplo                       |
+| ------------------ | ---------------- | ----------------------------- |
+| Nuevas Features    | `feature/`       | `feature/login-form`          |
+| Corrección de Bugs | `bugfix/`        | `bugfix/fix-login-redirect`   |
+| Refactors          | `refactor/`      | `refactor/optimize-dashboard` |
+| Hotfix en Prod     | `hotfix/`        | `hotfix/fix-prod-env`         |
 
 ---
 
 ## 🧑‍💻 Flujo de trabajo recomendado
 
-1. **Crea tu rama** desde `development`  
+1. **Crea tu rama** desde `development`
+
    ```bash
    git checkout development
    git pull origin development
    git checkout -b feature/nombre-de-la-feature
    ```
 
-2. **Haz tus cambios** y realiza commits claros  
+2. **Haz tus cambios** y realiza commits claros
+
    ```bash
    git add .
    git commit -m "feat: descripción corta del cambio"
@@ -54,18 +55,19 @@ Cada cambio debe realizarse en **ramas individuales** a partir de `development`,
    - `refactor:` → Mejora de código sin cambiar funcionalidad
    - `docs:` → Cambios en documentación
 
-3. **Sube tu rama** al repositorio  
+3. **Sube tu rama** al repositorio
+
    ```bash
    git push origin feature/nombre-de-la-feature
    ```
 
-4. **Abre un Pull Request (PR)** hacia `development`  
+4. **Abre un Pull Request (PR)** hacia `development`
    - El PR debe tener:
      - Descripción clara del cambio
      - Capturas si aplica
      - Referencias a tickets o issues
 
-5. **Revisión y merge**  
+5. **Revisión y merge**
    - Otro desarrollador debe aprobar el PR antes de hacer merge.
    - Los merges a `staging` y `main` **solo los hace el responsable del release**.
 
@@ -88,5 +90,5 @@ Cada cambio debe realizarse en **ramas individuales** a partir de `development`,
 
 ## 📄 Recursos
 
-- [Guía de convenciones de commits](https://www.conventionalcommits.org/es/v1.0.0/)  
+- [Guía de convenciones de commits](https://www.conventionalcommits.org/es/v1.0.0/)
 - [Flujo Git recomendado](https://nvie.com/posts/a-successful-git-branching-model/)

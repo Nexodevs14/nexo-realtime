@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /**
  * Schema for Form duplicated realtime event.
@@ -13,5 +13,4 @@ export const FormDuplicatedSchema = z.object({
 /**
  * Inferred payload type.
  */
-export type FormDuplicatedPayload =
-  z.infer<typeof FormDuplicatedSchema>;
+export type FormDuplicatedPayload = z.infer<typeof FormDuplicatedSchema>;

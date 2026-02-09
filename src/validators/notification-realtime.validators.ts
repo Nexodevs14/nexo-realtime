@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { NotificationChangeType } from "@/types/notification-realtime.types";
+import { z } from 'zod';
+import { NotificationChangeType } from '@/types/notification-realtime.types';
 
 /**
  * Schema for notification change events.
@@ -17,5 +17,4 @@ export const NotificationChangeSchema = z.object({
 /**
  * Inferred payload type.
  */
-export type NotificationChangePayload =
-  z.infer<typeof NotificationChangeSchema>;
+export type NotificationChangePayload = z.infer<typeof NotificationChangeSchema>;

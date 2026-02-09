@@ -1,7 +1,7 @@
-import express, { Application } from "express";
-import cors from "cors";
-import helmet from "helmet";
-import { env } from "@/config/env";
+import express, { Application } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import { env } from '@/config/env';
 
 /**
  * Creates and configures the Express application.

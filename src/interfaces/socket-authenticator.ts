@@ -5,7 +5,6 @@
  * and returning the authenticated user id.
  */
 export interface SocketAuthenticator {
-
   /**
    * Authenticates a socket connection.
    *

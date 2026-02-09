@@ -1,7 +1,7 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { SocketAuthenticator } from "@/interfaces/socket-authenticator";
-import { env } from "@/config/env";
-import { UnauthorizedError } from "@/errors/api.errors";
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { SocketAuthenticator } from '@/interfaces/socket-authenticator';
+import { env } from '@/config/env';
+import { UnauthorizedError } from '@/errors/api.errors';
 
 /**
  * JWT-based Socket.IO authenticator (Passport / RS256).
@@ -19,30 +19,30 @@ export class JwtSocketAuthenticator implements SocketAuthenticator {
    * @throws UnauthorizedError
    */
   async authenticate(authPayload: unknown): Promise<string | number> {
-    if (!authPayload || typeof authPayload !== "object") {
-      throw new UnauthorizedError("Missing auth payload");
+    if (!authPayload || typeof authPayload !== 'object') {
+      throw new UnauthorizedError('Missing auth payload');
     }
 
     const token = (authPayload as { token?: string }).token;
 
     if (!token) {
-      throw new UnauthorizedError("Missing auth token");
+      throw new UnauthorizedError('Missing auth token');
     }
 
     let decoded: JwtPayload;
 
     try {
       decoded = jwt.verify(token, env.jwtPublicKey, {
-        algorithms: ["RS256"],
+        algorithms: ['RS256'],
       }) as JwtPayload;
     } catch {
-      throw new UnauthorizedError("Invalid or expired token");
+      throw new UnauthorizedError('Invalid or expired token');
     }
 
     const userId = decoded.sub;
 
-    if (typeof userId !== "string" && typeof userId !== "number") {
-      throw new UnauthorizedError("Token subject (sub) is invalid");
+    if (typeof userId !== 'string' && typeof userId !== 'number') {
+      throw new UnauthorizedError('Token subject (sub) is invalid');
     }
 
     return userId;

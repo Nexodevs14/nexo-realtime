@@ -1,6 +1,6 @@
-import type { Server } from "socket.io";
-import { RealtimeGateway } from "@/interfaces/realtime-gateway";
-import { RealtimeEventEnum } from "@/enums/realtime-events";
+import type { Server } from 'socket.io';
+import { RealtimeGateway } from '@/interfaces/realtime-gateway';
+import { RealtimeEventEnum } from '@/enums/realtime-events';
 
 /**
  * SocketIoGateway

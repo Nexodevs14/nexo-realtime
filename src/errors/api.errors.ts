@@ -1,4 +1,4 @@
-import { ApiErrorDetail } from "@/types/http.types";
+import { ApiErrorDetail } from '@/types/http.types';
 
 /**
  * Base application error.
@@ -9,11 +9,7 @@ export abstract class AppError extends Error {
   public readonly statusCode: number;
   public readonly errors: ApiErrorDetail[];
 
-  protected constructor(
-    message: string,
-    statusCode: number,
-    errors: ApiErrorDetail[] = []
-  ) {
+  protected constructor(message: string, statusCode: number, errors: ApiErrorDetail[] = []) {
     super(message);
     this.statusCode = statusCode;
     this.errors = errors;
@@ -24,17 +20,12 @@ export abstract class AppError extends Error {
   }
 }
 
-
 /**
  * Validation error (400)
  */
 export class ValidationError extends AppError {
   constructor(errors: ApiErrorDetail[]) {
-    super(
-      "Invalid request payload",
-      400,
-      errors
-    );
+    super('Invalid request payload', 400, errors);
   }
 }
 
@@ -42,7 +33,7 @@ export class ValidationError extends AppError {
  * Unauthorized error (401)
  */
 export class UnauthorizedError extends AppError {
-  constructor(message = "Unauthorized") {
+  constructor(message = 'Unauthorized') {
     super(message, 401);
   }
 }
@@ -51,7 +42,7 @@ export class UnauthorizedError extends AppError {
  * Resource not found error (404)
  */
 export class NotFoundError extends AppError {
-  constructor(message = "Route not found") {
+  constructor(message = 'Route not found') {
     super(message, 404);
   }
 }
@@ -60,7 +51,7 @@ export class NotFoundError extends AppError {
  * Unexpected error (500)
  */
 export class UnexpectedError extends AppError {
-  constructor(message = "Unexpected error") {
+  constructor(message = 'Unexpected error') {
     super(message, 500);
   }
 }

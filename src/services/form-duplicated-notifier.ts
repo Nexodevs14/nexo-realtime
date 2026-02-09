@@ -1,7 +1,7 @@
-import { RealtimeGateway } from "@/interfaces/realtime-gateway";
-import { Notifier } from "@/interfaces/notifier";
-import { RealtimeEventEnum } from "@/enums/realtime-events";
-import { FormDuplicatedPayload } from "@/validators/form.validators";
+import { RealtimeGateway } from '@/interfaces/realtime-gateway';
+import { Notifier } from '@/interfaces/notifier';
+import { RealtimeEventEnum } from '@/enums/realtime-events';
+import { FormDuplicatedPayload } from '@/validators/form.validators';
 
 /**
  * Handles realtime notification when a Form is duplicated.
