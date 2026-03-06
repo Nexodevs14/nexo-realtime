@@ -10,7 +10,7 @@ export const LegalBasisExportCompletedSchema = z.object({
   fileUrl: z.url(),
 });
 
-/**
- * Inferred TypeScript type from schema.
+/*
+ * Payload for the legal_basis.export_completed event.
  */
 export type LegalBasisExportCompletedPayload = z.infer<typeof LegalBasisExportCompletedSchema>;

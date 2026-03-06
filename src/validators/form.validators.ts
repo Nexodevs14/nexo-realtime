@@ -10,7 +10,7 @@ export const FormDuplicatedSchema = z.object({
   version: z.number(),
 });
 
-/**
- * Inferred payload type.
+/*
+ * Payload for the form.duplicated event.
  */
 export type FormDuplicatedPayload = z.infer<typeof FormDuplicatedSchema>;

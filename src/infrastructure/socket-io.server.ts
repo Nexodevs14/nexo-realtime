@@ -77,10 +77,14 @@ function registerConnectionHandlers(io: Server): void {
       socket.disconnect(true);
       return;
     }
-    const room = buildUserRoom(userId);
-    socket.join(room);
+    const userRoom = buildUserRoom(userId);
+    socket.join(userRoom);
+    socket.on('join-context', (payload: { customerId?: number; corporateIds?: number[] }) => {
+      joinCustomerRoom(socket, payload.customerId);
+      joinCorporateRooms(socket, payload.corporateIds);
+    });
     socket.on('disconnect', () => {
-      socket.leave(room);
+      socket.leave(userRoom);
     });
   });
 }
@@ -93,4 +97,31 @@ function registerConnectionHandlers(io: Server): void {
  */
 function buildUserRoom(userId: string | number): string {
   return `user:${userId}`;
+}
+
+/**
+ * Joins the socket to the customer room.
+ *
+ * @param socket - The Socket.IO socket
+ * @param customerId - The customer ID
+ */
+function joinCustomerRoom(socket: Socket, customerId?: number): void {
+  if (!customerId) return;
+
+  const room = `customer:${customerId}`;
+  socket.join(room);
+}
+
+/**
+ * Joins the socket to the corporate rooms.
+ *
+ * @param socket - The Socket.IO socket
+ * @param corporateIds - The array of corporate IDs
+ */
+function joinCorporateRooms(socket: Socket, corporateIds?: number[]): void {
+  if (!Array.isArray(corporateIds)) return;
+
+  for (const corporateId of corporateIds) {
+    socket.join(`corporate:${corporateId}`);
+  }
 }
