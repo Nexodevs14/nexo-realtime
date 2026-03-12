@@ -15,9 +15,11 @@ export class AuditProcessStatusChangedNotifier implements Notifier<AuditProcessP
   notify(payload: AuditProcessPayload): void {
     for (const corporateId of payload.corporateIds) {
       const room = `corporate:${corporateId}`;
-      this.realtimeGateway.broadcastToRoom(
+
+      this.realtimeGateway.broadcastToRoomExceptUser(
         room,
-        RealtimeEventEnum.AUDIT_PROCESS_STATUS_CHANGED,
+        payload.actorId,
+        RealtimeEventEnum.AUDIT_PROCESS_CREATED,
         payload
       );
     }

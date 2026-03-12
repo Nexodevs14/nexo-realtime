@@ -21,7 +21,12 @@ export class AuditProcessCreatedNotifier implements Notifier<AuditProcessPayload
     for (const corporateId of payload.corporateIds) {
       const room = `corporate:${corporateId}`;
 
-      this.realtimeGateway.broadcastToRoom(room, RealtimeEventEnum.AUDIT_PROCESS_CREATED, payload);
+      this.realtimeGateway.broadcastToRoomExceptUser(
+        room,
+        payload.actorId,
+        RealtimeEventEnum.AUDIT_PROCESS_CREATED,
+        payload
+      );
     }
   }
 }

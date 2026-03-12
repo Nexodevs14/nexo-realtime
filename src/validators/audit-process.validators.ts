@@ -8,6 +8,7 @@ export const AuditProcessSchema = z.object({
   name: z.string(),
   status: z.number(),
   corporateIds: z.array(z.number()),
+  actorId: z.number().int().positive(),
 });
 
 /*

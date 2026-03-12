@@ -15,7 +15,13 @@ export class AuditProcessDeletedNotifier implements Notifier<AuditProcessPayload
   notify(payload: AuditProcessPayload): void {
     for (const corporateId of payload.corporateIds) {
       const room = `corporate:${corporateId}`;
-      this.realtimeGateway.broadcastToRoom(room, RealtimeEventEnum.AUDIT_PROCESS_DELETED, payload);
+
+      this.realtimeGateway.broadcastToRoomExceptUser(
+        room,
+        payload.actorId,
+        RealtimeEventEnum.AUDIT_PROCESS_CREATED,
+        payload
+      );
     }
   }
 }

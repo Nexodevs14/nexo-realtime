@@ -43,6 +43,11 @@ export class SocketIoGateway implements RealtimeGateway {
     this.io.to(room).emit(event, payload);
   }
 
+  broadcastToRoomExceptUser<T>(room: string, userId: number, event: string, payload: T): void {
+    const userRoom = `user:${userId}`;
+    this.io.to(room).except(userRoom).emit(event, payload);
+  }
+
   /**
    * Builds the Socket.IO room name for a given user.
    *
