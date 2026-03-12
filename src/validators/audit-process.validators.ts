@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { AuditProcessEventType } from '@/types/audit-process.types';
 
 /**
  * Schema for AuditProcess created event.
@@ -6,6 +7,12 @@ import { z } from 'zod';
 export const AuditProcessSchema = z.object({
   idAuditProcess: z.number(),
   name: z.string(),
+  event: z.enum([
+    AuditProcessEventType.CREATED,
+    AuditProcessEventType.UPDATED,
+    AuditProcessEventType.STATUS_CHANGED,
+    AuditProcessEventType.DELETED,
+  ]),
   status: z.number(),
   corporateIds: z.array(z.number()),
   actorId: z.number().int().positive(),

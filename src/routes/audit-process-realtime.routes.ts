@@ -10,17 +10,7 @@ export function createAuditProcessRealtimeRoutes(
 ): Router {
   const router = Router();
 
-  router.post('/audit-process/created', serviceAuth, controller.handleAuditProcessCreated);
-
-  router.post('/audit-process/updated', serviceAuth, controller.handleAuditProcessUpdated);
-
-  router.post(
-    '/audit-process/status-changed',
-    serviceAuth,
-    controller.handleAuditProcessStatusChanged
-  );
-
-  router.post('/audit-process/deleted', serviceAuth, controller.handleAuditProcessDeleted);
+  router.post('/audit-process/event', serviceAuth, controller.handleAuditProcessEvent);
 
   return router;
 }

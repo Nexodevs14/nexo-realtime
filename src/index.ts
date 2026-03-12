@@ -14,10 +14,7 @@ import { createNotificationRealtimeRoutes } from '@/routes/notification-realtime
 import { FormDuplicatedNotifier } from '@/services/form-duplicated-notifier';
 import { FormRealtimeController } from '@/controllers/form-realtime.controller';
 import { createFormRealtimeRoutes } from '@/routes/form-realtime.routes';
-import { AuditProcessCreatedNotifier } from '@/services/audit-process-created-notifier';
-import { AuditProcessUpdatedNotifier } from '@/services/audit-process-updated-notifier';
-import { AuditProcessDeletedNotifier } from '@/services/audit-process-deleted-notifier';
-import { AuditProcessStatusChangedNotifier } from '@/services/audit-process-status-changed-notifier';
+import { AuditProcessNotifier } from '@/services/audit-process-notifier';
 import { AuditProcessRealtimeController } from '@/controllers/audit-process-realtime.controller';
 import { createAuditProcessRealtimeRoutes } from '@/routes/audit-process-realtime.routes';
 import { notFoundHandler } from '@/middlewares/not-found.middleware';
@@ -68,10 +65,7 @@ async function bootstrap(): Promise<void> {
   const legalBasisNotifier = new LegalBasisExportNotifier(realtimeGateway);
   const notificationNotifier = new NotificationRealtimeNotifier(realtimeGateway);
   const formDuplicatedNotifier = new FormDuplicatedNotifier(realtimeGateway);
-  const auditProcessCreatedNotifier = new AuditProcessCreatedNotifier(realtimeGateway);
-  const auditProcessUpdatedNotifier = new AuditProcessUpdatedNotifier(realtimeGateway);
-  const auditProcessDeletedNotifier = new AuditProcessDeletedNotifier(realtimeGateway);
-  const auditProcessStatusChangedNotifier = new AuditProcessStatusChangedNotifier(realtimeGateway);
+  const auditProcessNotifier = new AuditProcessNotifier(realtimeGateway);
 
   /**
    * ------------------------------------------------------------------------
@@ -84,12 +78,7 @@ async function bootstrap(): Promise<void> {
 
   const formRealtimeController = new FormRealtimeController(formDuplicatedNotifier);
 
-  const auditProcessRealtimeController = new AuditProcessRealtimeController(
-    auditProcessCreatedNotifier,
-    auditProcessUpdatedNotifier,
-    auditProcessStatusChangedNotifier,
-    auditProcessDeletedNotifier
-  );
+  const auditProcessRealtimeController = new AuditProcessRealtimeController(auditProcessNotifier);
 
   /**
    * ------------------------------------------------------------------------
