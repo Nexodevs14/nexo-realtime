@@ -17,6 +17,9 @@ import { createFormRealtimeRoutes } from '@/routes/form-realtime.routes';
 import { AuditProcessNotifier } from '@/services/audit-process-notifier';
 import { AuditProcessRealtimeController } from '@/controllers/audit-process-realtime.controller';
 import { createAuditProcessRealtimeRoutes } from '@/routes/audit-process-realtime.routes';
+import { AuditExecutionNotifier } from '@/services/audit-execution-notifier';
+import { AuditExecutionRealtimeController } from '@/controllers/audit-execution-realtime.controller';
+import { createAuditExecutionRealtimeRoutes } from '@/routes/audit-execution-realtime.routes';
 import { notFoundHandler } from '@/middlewares/not-found.middleware';
 import { errorHandler } from '@/middlewares/error-handler';
 
@@ -66,6 +69,7 @@ async function bootstrap(): Promise<void> {
   const notificationNotifier = new NotificationRealtimeNotifier(realtimeGateway);
   const formDuplicatedNotifier = new FormDuplicatedNotifier(realtimeGateway);
   const auditProcessNotifier = new AuditProcessNotifier(realtimeGateway);
+  const auditExecutionNotifier = new AuditExecutionNotifier(realtimeGateway);
 
   /**
    * ------------------------------------------------------------------------
@@ -79,6 +83,9 @@ async function bootstrap(): Promise<void> {
   const formRealtimeController = new FormRealtimeController(formDuplicatedNotifier);
 
   const auditProcessRealtimeController = new AuditProcessRealtimeController(auditProcessNotifier);
+  const auditExecutionRealtimeController = new AuditExecutionRealtimeController(
+    auditExecutionNotifier
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -92,6 +99,8 @@ async function bootstrap(): Promise<void> {
   app.use('/api/v1/realtime', createFormRealtimeRoutes(formRealtimeController));
 
   app.use('/api/v1/realtime', createAuditProcessRealtimeRoutes(auditProcessRealtimeController));
+
+  app.use('/api/v1/realtime', createAuditExecutionRealtimeRoutes(auditExecutionRealtimeController));
 
   /**
    * ------------------------------------------------------------------------
