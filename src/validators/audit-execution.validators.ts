@@ -15,7 +15,7 @@ export const AuditExecutionSchema = z.object({
   idAuditExecution: z.number(),
   idAuditProcess: z.number(),
   status: z.number(),
-  idCorporate: z.number().int().positive(),
+  corporateId: z.number().int().positive(),
   actorId: z.number().int().positive(),
 });
 
