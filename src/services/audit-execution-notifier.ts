@@ -21,7 +21,6 @@ export class AuditExecutionNotifier implements Notifier<AuditExecutionPayload> {
    */
   notify(payload: AuditExecutionPayload): void {
     const event = this.mapEvent(payload.event);
-    console.log(payload);
     if (payload.corporateId !== null) {
       const room = `corporate:${payload.corporateId}`;
       this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
