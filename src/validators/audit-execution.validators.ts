@@ -3,7 +3,6 @@ import { AuditExecutionEventType } from '@/types/audit-execution.types';
 
 /**
  * Schema for Audit Execution realtime event payload.
- * idCorporate is required; emission is always to corporate:{idCorporate}.
  */
 export const AuditExecutionSchema = z.object({
   event: z.enum([
@@ -15,7 +14,8 @@ export const AuditExecutionSchema = z.object({
   idAuditExecution: z.number(),
   idAuditProcess: z.number(),
   status: z.number(),
-  corporateId: z.number().int().positive(),
+  corporateId: z.number().nullable(),
+  customerId: z.number(),
   actorId: z.number().int().positive(),
 });
 
