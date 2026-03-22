@@ -20,11 +20,17 @@ export class AuditProcessNotifier implements Notifier<AuditProcessPayload> {
    */
   notify(payload: AuditProcessPayload): void {
     const event = this.mapEvent(payload.event);
+    if (payload.corporateIds.length > 0) {
+      for (const corporateId of payload.corporateIds) {
+        const room = `corporate:${corporateId}`;
+        this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      }
 
-    for (const corporateId of payload.corporateIds) {
-      const room = `corporate:${corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      return;
     }
+
+    const room = `customer:${payload.customerId}`;
+    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
   }
 
   /**

@@ -20,6 +20,9 @@ import { createAuditProcessRealtimeRoutes } from '@/routes/audit-process-realtim
 import { AuditExecutionNotifier } from '@/services/audit-execution-notifier';
 import { AuditExecutionRealtimeController } from '@/controllers/audit-execution-realtime.controller';
 import { createAuditExecutionRealtimeRoutes } from '@/routes/audit-execution-realtime.routes';
+import { AuditApplicabilityNotifier } from '@/services/audit-applicability-notifier';
+import { AuditApplicabilityRealtimeController } from '@/controllers/audit-applicability-realtime.controller';
+import { createAuditApplicabilityRealtimeRoutes } from '@/routes/audit-applicability-realtime.routes';
 import { notFoundHandler } from '@/middlewares/not-found.middleware';
 import { errorHandler } from '@/middlewares/error-handler';
 
@@ -70,6 +73,7 @@ async function bootstrap(): Promise<void> {
   const formDuplicatedNotifier = new FormDuplicatedNotifier(realtimeGateway);
   const auditProcessNotifier = new AuditProcessNotifier(realtimeGateway);
   const auditExecutionNotifier = new AuditExecutionNotifier(realtimeGateway);
+  const auditApplicabilityNotifier = new AuditApplicabilityNotifier(realtimeGateway);
 
   /**
    * ------------------------------------------------------------------------
@@ -86,6 +90,9 @@ async function bootstrap(): Promise<void> {
   const auditExecutionRealtimeController = new AuditExecutionRealtimeController(
     auditExecutionNotifier
   );
+  const auditApplicabilityRealtimeController = new AuditApplicabilityRealtimeController(
+    auditApplicabilityNotifier
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -101,6 +108,11 @@ async function bootstrap(): Promise<void> {
   app.use('/api/v1/realtime', createAuditProcessRealtimeRoutes(auditProcessRealtimeController));
 
   app.use('/api/v1/realtime', createAuditExecutionRealtimeRoutes(auditExecutionRealtimeController));
+
+  app.use(
+    '/api/v1/realtime',
+    createAuditApplicabilityRealtimeRoutes(auditApplicabilityRealtimeController)
+  );
 
   /**
    * ------------------------------------------------------------------------
