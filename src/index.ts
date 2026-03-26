@@ -23,6 +23,7 @@ import { createAuditExecutionRealtimeRoutes } from '@/routes/audit-execution-rea
 import { AuditApplicabilityNotifier } from '@/services/audit-applicability-notifier';
 import { AuditApplicabilityRealtimeController } from '@/controllers/audit-applicability-realtime.controller';
 import { createAuditApplicabilityRealtimeRoutes } from '@/routes/audit-applicability-realtime.routes';
+import { AuditApplicabilityExportNotifier } from '@/services/audit-applicability-export-notifier';
 import { AuditApplicabilityAspectNotifier } from '@/services/audit-applicability-aspect-notifier';
 import { AuditApplicabilityAspectRealtimeController } from '@/controllers/audit-applicability-aspect-realtime.controller';
 import { createAuditApplicabilityAspectRealtimeRoutes } from '@/routes/audit-applicability-aspect-realtime.routes';
@@ -77,6 +78,7 @@ async function bootstrap(): Promise<void> {
   const auditProcessNotifier = new AuditProcessNotifier(realtimeGateway);
   const auditExecutionNotifier = new AuditExecutionNotifier(realtimeGateway);
   const auditApplicabilityNotifier = new AuditApplicabilityNotifier(realtimeGateway);
+  const auditApplicabilityExportNotifier = new AuditApplicabilityExportNotifier(realtimeGateway);
   const auditApplicabilityAspectNotifier = new AuditApplicabilityAspectNotifier(realtimeGateway);
 
   /**
@@ -95,7 +97,8 @@ async function bootstrap(): Promise<void> {
     auditExecutionNotifier
   );
   const auditApplicabilityRealtimeController = new AuditApplicabilityRealtimeController(
-    auditApplicabilityNotifier
+    auditApplicabilityNotifier,
+    auditApplicabilityExportNotifier
   );
   const auditApplicabilityAspectRealtimeController = new AuditApplicabilityAspectRealtimeController(
     auditApplicabilityAspectNotifier

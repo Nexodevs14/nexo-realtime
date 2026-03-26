@@ -17,4 +17,5 @@ export enum RealtimeEventEnum {
   AUDIT_APPLICABILITY_STATUS_CHANGED = 'audit_applicability.status_changed',
   AUDIT_APPLICABILITY_ASPECT_STATUS_CHANGED = 'audit_applicability_aspect.status_changed',
   AUDIT_APPLICABILITY_ASPECT_UPDATED = 'audit_applicability_aspect.updated',
+  AUDIT_APPLICABILITY_EXPORT_COMPLETED = 'audit_applicability.export_completed',
 }

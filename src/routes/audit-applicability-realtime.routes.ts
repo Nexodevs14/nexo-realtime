@@ -11,6 +11,11 @@ export function createAuditApplicabilityRealtimeRoutes(
   const router = Router();
 
   router.post('/audit-applicability/event', serviceAuth, controller.handleAuditApplicabilityEvent);
+  router.post(
+    '/audit-applicability/export-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
 
   return router;
 }
