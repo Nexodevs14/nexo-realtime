@@ -40,6 +40,7 @@ export class AuditApplicabilityNotifier implements Notifier<AuditApplicabilityPa
       [AuditApplicabilityEventType.STARTED]: RealtimeEventEnum.AUDIT_APPLICABILITY_STARTED,
       [AuditApplicabilityEventType.STATUS_CHANGED]:
         RealtimeEventEnum.AUDIT_APPLICABILITY_STATUS_CHANGED,
+      [AuditApplicabilityEventType.COMPLETED]: RealtimeEventEnum.AUDIT_APPLICABILITY_COMPLETED,
     };
 
     return map[type];

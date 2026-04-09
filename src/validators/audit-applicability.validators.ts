@@ -5,7 +5,11 @@ import { AuditApplicabilityEventType } from '@/types/audit-applicability.types';
  * Schema for Audit Applicability realtime event payload.
  */
 export const AuditApplicabilitySchema = z.object({
-  event: z.enum([AuditApplicabilityEventType.STARTED, AuditApplicabilityEventType.STATUS_CHANGED]),
+  event: z.enum([
+    AuditApplicabilityEventType.STARTED,
+    AuditApplicabilityEventType.STATUS_CHANGED,
+    AuditApplicabilityEventType.COMPLETED,
+  ]),
   idAuditApplicability: z.number(),
   idAuditExecution: z.number(),
   status: z.number(),

@@ -28,9 +28,7 @@ export class AuditApplicabilityRealtimeController {
   ): void => {
     try {
       const payload = AuditApplicabilitySchema.parse(req.body);
-
       this.notifier.notify(payload);
-
       ok(res, null, 'Realtime notification dispatched');
     } catch (error) {
       if (error instanceof ZodError) {

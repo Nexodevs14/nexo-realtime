@@ -4,4 +4,5 @@
 export enum AuditApplicabilityEventType {
   STARTED = 'started',
   STATUS_CHANGED = 'status_changed',
+  COMPLETED = 'completed',
 }
