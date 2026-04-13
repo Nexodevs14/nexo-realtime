@@ -1,8 +1,14 @@
 import { RealtimeGateway } from '@/interfaces/realtime-gateway';
 import { Notifier } from '@/interfaces/notifier';
 import { RealtimeEventEnum } from '@/enums/realtime-events';
-import { AuditApplicabilityPayload } from '@/validators/audit-applicability.validators';
-import { AuditApplicabilityEventType } from '@/types/audit-applicability.types';
+import {
+  AuditApplicabilityAspectPayload,
+  AuditApplicabilityPayload,
+} from '@/validators/audit-applicability.validators';
+import {
+  AuditApplicabilityAspectEventType,
+  AuditApplicabilityEventType,
+} from '@/types/audit-applicability.types';
 
 /**
  * Handles realtime notification for Audit Applicability events.
@@ -33,6 +39,22 @@ export class AuditApplicabilityNotifier implements Notifier<AuditApplicabilityPa
   }
 
   /**
+   * Notifies clients about an Audit Applicability Aspect event.
+   */
+  notifyAspect(payload: AuditApplicabilityAspectPayload): void {
+    const event = this.mapAspectEvent(payload.event);
+
+    if (payload.corporateId !== null) {
+      const room = `corporate:${payload.corporateId}`;
+      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      return;
+    }
+
+    const room = `customer:${payload.customerId}`;
+    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+  }
+
+  /**
    * Maps AuditApplicabilityEventType to RealtimeEventEnum.
    */
   private mapEvent(type: AuditApplicabilityEventType): RealtimeEventEnum {
@@ -41,6 +63,20 @@ export class AuditApplicabilityNotifier implements Notifier<AuditApplicabilityPa
       [AuditApplicabilityEventType.STATUS_CHANGED]:
         RealtimeEventEnum.AUDIT_APPLICABILITY_STATUS_CHANGED,
       [AuditApplicabilityEventType.COMPLETED]: RealtimeEventEnum.AUDIT_APPLICABILITY_COMPLETED,
+    };
+
+    return map[type];
+  }
+
+  /**
+   * Maps AuditApplicabilityAspectEventType to RealtimeEventEnum.
+   */
+  private mapAspectEvent(type: AuditApplicabilityAspectEventType): RealtimeEventEnum {
+    const map: Record<AuditApplicabilityAspectEventType, RealtimeEventEnum> = {
+      [AuditApplicabilityAspectEventType.STATUS_CHANGED]:
+        RealtimeEventEnum.AUDIT_APPLICABILITY_ASPECT_STATUS_CHANGED,
+      [AuditApplicabilityAspectEventType.UPDATED]:
+        RealtimeEventEnum.AUDIT_APPLICABILITY_ASPECT_UPDATED,
     };
 
     return map[type];

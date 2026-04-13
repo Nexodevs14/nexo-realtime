@@ -16,6 +16,11 @@ export function createAuditApplicabilityRealtimeRoutes(
     serviceAuth,
     controller.handleExportCompleted
   );
+  router.post(
+    '/audit-applicability-aspect/event',
+    serviceAuth,
+    controller.handleAuditApplicabilityAspectEvent
+  );
 
   return router;
 }

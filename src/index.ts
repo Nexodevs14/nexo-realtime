@@ -24,9 +24,9 @@ import { AuditApplicabilityNotifier } from '@/services/audit-applicability-notif
 import { AuditApplicabilityRealtimeController } from '@/controllers/audit-applicability-realtime.controller';
 import { createAuditApplicabilityRealtimeRoutes } from '@/routes/audit-applicability-realtime.routes';
 import { AuditApplicabilityExportNotifier } from '@/services/audit-applicability-export-notifier';
-import { AuditApplicabilityAspectNotifier } from '@/services/audit-applicability-aspect-notifier';
-import { AuditApplicabilityAspectRealtimeController } from '@/controllers/audit-applicability-aspect-realtime.controller';
-import { createAuditApplicabilityAspectRealtimeRoutes } from '@/routes/audit-applicability-aspect-realtime.routes';
+import { ComplianceExecutionRealtimeNotifier } from '@/services/compliance-execution-realtime-notifier';
+import { ComplianceExecutionRealtimeController } from '@/controllers/compliance-execution-realtime.controller';
+import { createComplianceExecutionRealtimeRoutes } from '@/routes/compliance-execution-realtime.routes';
 import { notFoundHandler } from '@/middlewares/not-found.middleware';
 import { errorHandler } from '@/middlewares/error-handler';
 
@@ -79,7 +79,9 @@ async function bootstrap(): Promise<void> {
   const auditExecutionNotifier = new AuditExecutionNotifier(realtimeGateway);
   const auditApplicabilityNotifier = new AuditApplicabilityNotifier(realtimeGateway);
   const auditApplicabilityExportNotifier = new AuditApplicabilityExportNotifier(realtimeGateway);
-  const auditApplicabilityAspectNotifier = new AuditApplicabilityAspectNotifier(realtimeGateway);
+  const complianceExecutionRealtimeNotifier = new ComplianceExecutionRealtimeNotifier(
+    realtimeGateway
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -100,8 +102,8 @@ async function bootstrap(): Promise<void> {
     auditApplicabilityNotifier,
     auditApplicabilityExportNotifier
   );
-  const auditApplicabilityAspectRealtimeController = new AuditApplicabilityAspectRealtimeController(
-    auditApplicabilityAspectNotifier
+  const complianceExecutionRealtimeController = new ComplianceExecutionRealtimeController(
+    complianceExecutionRealtimeNotifier
   );
 
   /**
@@ -126,7 +128,7 @@ async function bootstrap(): Promise<void> {
 
   app.use(
     '/api/v1/realtime',
-    createAuditApplicabilityAspectRealtimeRoutes(auditApplicabilityAspectRealtimeController)
+    createComplianceExecutionRealtimeRoutes(complianceExecutionRealtimeController)
   );
 
   /**

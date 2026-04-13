@@ -3,6 +3,7 @@ import { ZodError } from 'zod';
 import { AuditApplicabilityNotifier } from '@/services/audit-applicability-notifier';
 import { AuditApplicabilityExportNotifier } from '@/services/audit-applicability-export-notifier';
 import {
+  AuditApplicabilityAspectSchema,
   AuditApplicabilitySchema,
   AuditApplicabilityExportCompletedSchema,
 } from '@/validators/audit-applicability.validators';
@@ -66,6 +67,34 @@ export class AuditApplicabilityRealtimeController {
             error.issues.map((err) => ({
               field: err.path.join('.'),
               message: err.message,
+            }))
+          )
+        );
+      }
+
+      next(error);
+    }
+  };
+
+  /**
+   * Handles Audit Applicability Aspect realtime event requests.
+   */
+  handleAuditApplicabilityAspectEvent = (
+    req: Request,
+    res: Response<ApiResponse<null>>,
+    next: NextFunction
+  ): void => {
+    try {
+      const payload = AuditApplicabilityAspectSchema.parse(req.body);
+      this.notifier.notifyAspect(payload);
+      ok(res, null, 'Realtime notification dispatched');
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return next(
+          new ValidationError(
+            error.issues.map((issue) => ({
+              field: issue.path.join('.'),
+              message: issue.message,
             }))
           )
         );

@@ -1,5 +1,8 @@
 import { z } from 'zod';
-import { AuditApplicabilityEventType } from '@/types/audit-applicability.types';
+import {
+  AuditApplicabilityAspectEventType,
+  AuditApplicabilityEventType,
+} from '@/types/audit-applicability.types';
 
 /**
  * Schema for Audit Applicability realtime event payload.
@@ -28,7 +31,27 @@ export const AuditApplicabilityExportCompletedSchema = z.object({
   fileUrl: z.url(),
 });
 
+/**
+ * Schema for Audit Applicability Aspect realtime event payload.
+ *
+ * This payload is sent by the Laravel backend to the Node realtime service.
+ */
+export const AuditApplicabilityAspectSchema = z.object({
+  event: z.enum([
+    AuditApplicabilityAspectEventType.STATUS_CHANGED,
+    AuditApplicabilityAspectEventType.UPDATED,
+  ]),
+  idAuditApplicabilityAspect: z.number().int().positive(),
+  idAuditApplicability: z.number().int().positive(),
+  idAuditExecution: z.number().int().positive(),
+  status: z.number().int().positive(),
+  corporateId: z.number().int().positive().nullable(),
+  customerId: z.number().int().positive(),
+  actorId: z.number().int().positive(),
+});
+
 export type AuditApplicabilityPayload = z.infer<typeof AuditApplicabilitySchema>;
 export type AuditApplicabilityExportCompletedPayload = z.infer<
   typeof AuditApplicabilityExportCompletedSchema
 >;
+export type AuditApplicabilityAspectPayload = z.infer<typeof AuditApplicabilityAspectSchema>;
