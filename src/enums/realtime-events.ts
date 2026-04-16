@@ -30,4 +30,10 @@ export enum RealtimeEventEnum {
   COMPLIANCE_EVIDENCE_CREATED = 'compliance_evidence.created',
   COMPLIANCE_EVIDENCE_DELETED = 'compliance_evidence.deleted',
   COMPLIANCE_EXECUTION_EXPORT_COMPLETED = 'compliance_execution_export.completed',
+  CONDITIONAL_CREATED = 'conditional.created',
+  CONDITIONAL_UPDATED = 'conditional.updated',
+  CONDITIONAL_DELETED = 'conditional.deleted',
+  CONDITIONAL_REQUIREMENT_CREATED = 'conditional_requirement.created',
+  CONDITIONAL_REQUIREMENT_UPDATED = 'conditional_requirement.updated',
+  CONDITIONAL_REQUIREMENT_DELETED = 'conditional_requirement.deleted',
 }
