@@ -95,6 +95,17 @@ export const ComplianceEvidenceSchema = z.object({
   actorId: z.number().int().positive(),
 });
 
+/**
+ * Schema for Compliance Execution export completed event payloads.
+ */
+export const ComplianceExecutionExportCompletedSchema = z.object({
+  userId: z.number().int().positive(),
+  idComplianceExecution: z.number().int().positive(),
+  type: z.string().min(1),
+  name: z.string().min(1),
+  fileUrl: z.url(),
+});
+
 export type ComplianceExecutionPayload = z.infer<typeof ComplianceExecutionSchema>;
 export type ComplianceExecutionAspectPayload = z.infer<typeof ComplianceExecutionAspectSchema>;
 export type ComplianceExecutionSubjectPayload = z.infer<typeof ComplianceExecutionSubjectSchema>;
@@ -102,3 +113,6 @@ export type ComplianceExecutionSubjectCommentPayload = z.infer<
   typeof ComplianceExecutionSubjectCommentSchema
 >;
 export type ComplianceEvidencePayload = z.infer<typeof ComplianceEvidenceSchema>;
+export type ComplianceExecutionExportCompletedPayload = z.infer<
+  typeof ComplianceExecutionExportCompletedSchema
+>;

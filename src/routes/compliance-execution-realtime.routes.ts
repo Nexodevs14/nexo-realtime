@@ -11,6 +11,11 @@ export function createComplianceExecutionRealtimeRoutes(
   const router = Router();
 
   router.post('/compliance-execution/event', serviceAuth, controller.handleExecutionEvent);
+  router.post(
+    '/compliance-execution/audit-export-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
   router.post('/compliance-execution-aspect/event', serviceAuth, controller.handleAspectEvent);
   router.post('/compliance-execution-subject/event', serviceAuth, controller.handleSubjectEvent);
   router.post(

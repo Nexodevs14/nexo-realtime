@@ -28,6 +28,7 @@ export const AuditApplicabilityExportCompletedSchema = z.object({
   userId: z.number(),
   auditApplicabilityId: z.number(),
   type: z.string(),
+  name: z.string(),
   fileUrl: z.url(),
 });
 

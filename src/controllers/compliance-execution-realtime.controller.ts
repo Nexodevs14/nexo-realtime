@@ -2,10 +2,12 @@ import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { ValidationError } from '@/errors/api.errors';
 import { ComplianceExecutionRealtimeNotifier } from '@/services/compliance-execution-realtime-notifier';
+import { ComplianceExecutionExportNotifier } from '@/services/compliance-execution-export-notifier';
 import { ApiResponse, ok } from '@/types/http.types';
 import {
   ComplianceEvidenceSchema,
   ComplianceExecutionAspectSchema,
+  ComplianceExecutionExportCompletedSchema,
   ComplianceExecutionSchema,
   ComplianceExecutionSubjectCommentSchema,
   ComplianceExecutionSubjectSchema,
@@ -21,9 +23,13 @@ export class ComplianceExecutionRealtimeController {
   /**
    * Creates an instance of ComplianceExecutionRealtimeController.
    *
-   * @param notifier - Service responsible for dispatching realtime notifications.
+   * @param notifier - Service responsible for dispatching operational realtime notifications.
+   * @param exportNotifier - Service responsible for dispatching export completion notifications.
    */
-  constructor(private readonly notifier: ComplianceExecutionRealtimeNotifier) {}
+  constructor(
+    private readonly notifier: ComplianceExecutionRealtimeNotifier,
+    private readonly exportNotifier: ComplianceExecutionExportNotifier
+  ) {}
 
   /**
    * Handles Compliance Execution lifecycle realtime event requests.
@@ -169,6 +175,38 @@ export class ComplianceExecutionRealtimeController {
       const payload = ComplianceEvidenceSchema.parse(req.body);
       this.notifier.notifyEvidence(payload);
       ok(res, null, 'Realtime notification dispatched');
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return next(
+          new ValidationError(
+            error.issues.map((issue) => ({
+              field: issue.path.join('.'),
+              message: issue.message,
+            }))
+          )
+        );
+      }
+
+      next(error);
+    }
+  };
+
+  /**
+   * Handles Compliance Execution export completed realtime event requests.
+   *
+   * @param req - Express request.
+   * @param res - Express response.
+   * @param next - Express next middleware.
+   */
+  handleExportCompleted = (
+    req: Request,
+    res: Response<ApiResponse<null>>,
+    next: NextFunction
+  ): void => {
+    try {
+      const payload = ComplianceExecutionExportCompletedSchema.parse(req.body);
+      this.exportNotifier.notify(payload);
+      ok(res, null, 'Realtime export notification dispatched');
     } catch (error) {
       if (error instanceof ZodError) {
         return next(

@@ -24,6 +24,7 @@ import { AuditApplicabilityNotifier } from '@/services/audit-applicability-notif
 import { AuditApplicabilityRealtimeController } from '@/controllers/audit-applicability-realtime.controller';
 import { createAuditApplicabilityRealtimeRoutes } from '@/routes/audit-applicability-realtime.routes';
 import { AuditApplicabilityExportNotifier } from '@/services/audit-applicability-export-notifier';
+import { ComplianceExecutionExportNotifier } from '@/services/compliance-execution-export-notifier';
 import { ComplianceExecutionRealtimeNotifier } from '@/services/compliance-execution-realtime-notifier';
 import { ComplianceExecutionRealtimeController } from '@/controllers/compliance-execution-realtime.controller';
 import { createComplianceExecutionRealtimeRoutes } from '@/routes/compliance-execution-realtime.routes';
@@ -79,6 +80,7 @@ async function bootstrap(): Promise<void> {
   const auditExecutionNotifier = new AuditExecutionNotifier(realtimeGateway);
   const auditApplicabilityNotifier = new AuditApplicabilityNotifier(realtimeGateway);
   const auditApplicabilityExportNotifier = new AuditApplicabilityExportNotifier(realtimeGateway);
+  const complianceExecutionExportNotifier = new ComplianceExecutionExportNotifier(realtimeGateway);
   const complianceExecutionRealtimeNotifier = new ComplianceExecutionRealtimeNotifier(
     realtimeGateway
   );
@@ -103,7 +105,8 @@ async function bootstrap(): Promise<void> {
     auditApplicabilityExportNotifier
   );
   const complianceExecutionRealtimeController = new ComplianceExecutionRealtimeController(
-    complianceExecutionRealtimeNotifier
+    complianceExecutionRealtimeNotifier,
+    complianceExecutionExportNotifier
   );
 
   /**
