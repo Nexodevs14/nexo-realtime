@@ -51,7 +51,7 @@ export const ComplianceExecutionSubjectSchema = z.object({
   idComplianceExecutionAspect: z.number().int().positive().nullable(),
   idComplianceSubject: z.number().int().positive(),
   idAuditExecution: z.number().int().positive(),
-  status: z.number().int().positive(),
+  status: z.number().int().positive().nullable(),
   isEvaluated: z.boolean().nullable(),
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
