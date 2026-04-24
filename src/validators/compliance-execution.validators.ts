@@ -82,7 +82,12 @@ export const ComplianceExecutionSubjectCommentSchema = z.object({
  * Schema for Compliance Evidence realtime event payloads.
  */
 export const ComplianceEvidenceSchema = z.object({
-  event: z.enum([ComplianceEvidenceEventType.CREATED, ComplianceEvidenceEventType.DELETED]),
+  event: z.enum([
+    ComplianceEvidenceEventType.CREATED,
+    ComplianceEvidenceEventType.STATUS_CHANGED,
+    ComplianceEvidenceEventType.UPDATED,
+    ComplianceEvidenceEventType.DELETED,
+  ]),
   idComplianceEvidence: z.number().int().positive().nullable(),
   idComplianceSubject: z.number().int().positive(),
   idComplianceExecutionSubject: z.number().int().positive(),

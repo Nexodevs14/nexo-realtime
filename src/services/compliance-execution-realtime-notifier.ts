@@ -177,6 +177,9 @@ export class ComplianceExecutionRealtimeNotifier {
   private mapEvidenceEvent(type: ComplianceEvidenceEventType): RealtimeEventEnum {
     const map: Record<ComplianceEvidenceEventType, RealtimeEventEnum> = {
       [ComplianceEvidenceEventType.CREATED]: RealtimeEventEnum.COMPLIANCE_EVIDENCE_CREATED,
+      [ComplianceEvidenceEventType.STATUS_CHANGED]:
+        RealtimeEventEnum.COMPLIANCE_EVIDENCE_STATUS_CHANGED,
+      [ComplianceEvidenceEventType.UPDATED]: RealtimeEventEnum.COMPLIANCE_EVIDENCE_UPDATED,
       [ComplianceEvidenceEventType.DELETED]: RealtimeEventEnum.COMPLIANCE_EVIDENCE_DELETED,
     };
 

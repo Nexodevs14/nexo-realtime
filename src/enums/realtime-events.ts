@@ -28,6 +28,8 @@ export enum RealtimeEventEnum {
   COMPLIANCE_EXECUTION_SUBJECT_COMMENT_UPDATED = 'compliance_execution_subject_comment.updated',
   COMPLIANCE_EXECUTION_SUBJECT_COMMENT_DELETED = 'compliance_execution_subject_comment.deleted',
   COMPLIANCE_EVIDENCE_CREATED = 'compliance_evidence.created',
+  COMPLIANCE_EVIDENCE_STATUS_CHANGED = 'compliance_evidence.status_changed',
+  COMPLIANCE_EVIDENCE_UPDATED = 'compliance_evidence.updated',
   COMPLIANCE_EVIDENCE_DELETED = 'compliance_evidence.deleted',
   COMPLIANCE_EXECUTION_EXPORT_COMPLETED = 'compliance_execution_export.completed',
   CONDITIONAL_CREATED = 'conditional.created',

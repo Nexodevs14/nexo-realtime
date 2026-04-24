@@ -35,5 +35,7 @@ export enum ComplianceExecutionSubjectCommentEventType {
  */
 export enum ComplianceEvidenceEventType {
   CREATED = 'created',
+  STATUS_CHANGED = 'status_changed',
+  UPDATED = 'updated',
   DELETED = 'deleted',
 }
