@@ -16,6 +16,16 @@ export function createComplianceExecutionRealtimeRoutes(
     serviceAuth,
     controller.handleExportCompleted
   );
+  router.post(
+    '/compliance-execution/obligation-export-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
+  router.post(
+    '/compliance-execution/backup-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
   router.post('/compliance-execution-aspect/event', serviceAuth, controller.handleAspectEvent);
   router.post('/compliance-execution-subject/event', serviceAuth, controller.handleSubjectEvent);
   router.post(
