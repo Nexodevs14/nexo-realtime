@@ -32,6 +32,14 @@ export class SocketIoGateway implements RealtimeGateway {
   /**
    * @inheritdoc
    */
+  emitToClientSession<T>(clientSessionId: string, event: RealtimeEventEnum, payload: T): void {
+    const room = this.getClientSessionRoom(clientSessionId);
+    this.io.to(room).emit(event, payload);
+  }
+
+  /**
+   * @inheritdoc
+   */
   broadcast<T>(event: RealtimeEventEnum, payload: T): void {
     this.io.emit(event, payload);
   }
@@ -60,5 +68,15 @@ export class SocketIoGateway implements RealtimeGateway {
    */
   private getUserRoom(userId: string | number): string {
     return `user:${userId}`;
+  }
+
+  /**
+   * Builds the Socket.IO room name for a given client session.
+   *
+   * @param clientSessionId - Client session identifier
+   * @returns Room name
+   */
+  private getClientSessionRoom(clientSessionId: string): string {
+    return `client-session:${clientSessionId}`;
   }
 }

@@ -20,8 +20,8 @@ export class ComplianceExecutionExportNotifier implements Notifier<ComplianceExe
    * @param payload - Validated realtime payload sent by the backend.
    */
   notify(payload: ComplianceExecutionExportCompletedPayload): void {
-    this.realtimeGateway.emitToUser(
-      payload.userId,
+    this.realtimeGateway.emitToClientSession(
+      payload.clientSessionId,
       RealtimeEventEnum.COMPLIANCE_EXECUTION_EXPORT_COMPLETED,
       payload
     );

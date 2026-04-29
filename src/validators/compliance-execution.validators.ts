@@ -109,6 +109,7 @@ export const ComplianceExecutionExportCompletedSchema = z.object({
   type: z.string().min(1),
   name: z.string().min(1),
   fileUrl: z.url(),
+  clientSessionId: z.uuid(),
 });
 
 export type ComplianceExecutionPayload = z.infer<typeof ComplianceExecutionSchema>;

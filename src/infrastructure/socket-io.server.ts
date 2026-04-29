@@ -79,10 +79,14 @@ function registerConnectionHandlers(io: Server): void {
     }
     const userRoom = buildUserRoom(userId);
     socket.join(userRoom);
-    socket.on('join-context', (payload: { customerId?: number; corporateIds?: number[] }) => {
-      joinCustomerRoom(socket, payload.customerId);
-      joinCorporateRooms(socket, payload.corporateIds);
-    });
+    socket.on(
+      'join-context',
+      (payload: { clientSessionId?: string; customerId?: number; corporateIds?: number[] }) => {
+        joinClientSessionRoom(socket, payload.clientSessionId);
+        joinCustomerRoom(socket, payload.customerId);
+        joinCorporateRooms(socket, payload.corporateIds);
+      }
+    );
     socket.on('disconnect', () => {
       socket.leave(userRoom);
     });
@@ -97,6 +101,28 @@ function registerConnectionHandlers(io: Server): void {
  */
 function buildUserRoom(userId: string | number): string {
   return `user:${userId}`;
+}
+
+/**
+ * Builds the client session room name.
+ *
+ * @param clientSessionId - The client session identifier
+ * @returns The client session room name
+ */
+function buildClientSessionRoom(clientSessionId: string): string {
+  return `client-session:${clientSessionId}`;
+}
+
+/**
+ * Joins the socket to the client session room.
+ *
+ * @param socket - The Socket.IO socket
+ * @param clientSessionId - The client session identifier
+ */
+function joinClientSessionRoom(socket: Socket, clientSessionId?: string): void {
+  if (!clientSessionId) return;
+
+  socket.join(buildClientSessionRoom(clientSessionId));
 }
 
 /**

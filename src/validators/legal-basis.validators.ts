@@ -8,6 +8,7 @@ export const LegalBasisExportCompletedSchema = z.object({
   legalBasisId: z.number(),
   legalBasisName: z.string(),
   fileUrl: z.url(),
+  clientSessionId: z.uuid(),
 });
 
 /*

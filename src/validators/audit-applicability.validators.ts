@@ -30,6 +30,7 @@ export const AuditApplicabilityExportCompletedSchema = z.object({
   type: z.string(),
   name: z.string(),
   fileUrl: z.url(),
+  clientSessionId: z.uuid(),
 });
 
 /**

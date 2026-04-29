@@ -17,8 +17,8 @@ export class LegalBasisExportNotifier implements Notifier<LegalBasisExportComple
    * Notifies the user when a LegalBasis export is completed.
    */
   notify(payload: LegalBasisExportCompletedPayload): void {
-    this.realtimeGateway.emitToUser(
-      payload.userId,
+    this.realtimeGateway.emitToClientSession(
+      payload.clientSessionId,
       RealtimeEventEnum.LEGAL_BASIS_EXPORT_COMPLETED,
       payload
     );

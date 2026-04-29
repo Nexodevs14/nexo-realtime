@@ -13,6 +13,18 @@ export interface RealtimeGateway {
   emitToUser<T>(userId: number, event: string, payload: T): void;
 
   /**
+   * Emit an event to a specific client session.
+   *
+   * Client sessions represent a single browser tab or application instance
+   * that has explicitly joined a dedicated realtime room.
+   *
+   * @param clientSessionId - The client session identifier to emit the event to.
+   * @param event - The name of the event to emit.
+   * @param payload - The data to include in the event.
+   */
+  emitToClientSession<T>(clientSessionId: string, event: string, payload: T): void;
+
+  /**
    *
    * Emit an event to all connected clients.
    * @param event - The name of the event to emit.

@@ -18,8 +18,8 @@ export class AuditApplicabilityExportNotifier implements Notifier<AuditApplicabi
    * Notify user via realtime socket.
    */
   notify(payload: AuditApplicabilityExportCompletedPayload): void {
-    this.realtimeGateway.emitToUser(
-      payload.userId,
+    this.realtimeGateway.emitToClientSession(
+      payload.clientSessionId,
       RealtimeEventEnum.AUDIT_APPLICABILITY_EXPORT_COMPLETED,
       payload
     );
