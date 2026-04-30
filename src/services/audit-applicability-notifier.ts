@@ -5,6 +5,7 @@ import {
   AuditApplicabilityAspectPayload,
   AuditApplicabilityPayload,
 } from '@/validators/audit-applicability.validators';
+import { ScopedRealtimeAudienceNotifier } from '@/services/scoped-realtime-audience-notifier';
 import {
   AuditApplicabilityAspectEventType,
   AuditApplicabilityEventType,
@@ -15,27 +16,23 @@ import {
  * Always emits to corporate:{idCorporate}; if corporateId is null, falls back to customer:{idCustomer}.
  */
 export class AuditApplicabilityNotifier implements Notifier<AuditApplicabilityPayload> {
+  private readonly audienceNotifier: ScopedRealtimeAudienceNotifier;
+
   /**
    * Creates an instance of AuditApplicabilityNotifier.
    *
    * @param realtimeGateway - The RealtimeGateway instance to use for notifications.
    */
-  constructor(private readonly realtimeGateway: RealtimeGateway) {}
+  constructor(realtimeGateway: RealtimeGateway) {
+    this.audienceNotifier = new ScopedRealtimeAudienceNotifier(realtimeGateway);
+  }
 
   /**
    * Notifies clients about an Audit Applicability event.
    */
   notify(payload: AuditApplicabilityPayload): void {
     const event = this.mapEvent(payload.event);
-
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
@@ -43,15 +40,7 @@ export class AuditApplicabilityNotifier implements Notifier<AuditApplicabilityPa
    */
   notifyAspect(payload: AuditApplicabilityAspectPayload): void {
     const event = this.mapAspectEvent(payload.event);
-
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**

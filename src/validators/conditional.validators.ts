@@ -17,6 +17,7 @@ export const ConditionalSchema = z.object({
   customerId: z.number().int().positive().nullable(),
   corporateId: z.number().int().positive().nullable(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**
@@ -36,6 +37,7 @@ export const ConditionalRequirementSchema = z.object({
   number: z.string().min(1),
   name: z.string().min(1),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 export type ConditionalPayload = z.infer<typeof ConditionalSchema>;

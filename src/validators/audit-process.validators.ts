@@ -17,6 +17,7 @@ export const AuditProcessSchema = z.object({
   customerId: z.number(),
   corporateIds: z.array(z.number()),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /*

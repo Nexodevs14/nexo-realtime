@@ -19,6 +19,7 @@ export const AuditApplicabilitySchema = z.object({
   corporateId: z.number().nullable(),
   customerId: z.number(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**
@@ -50,6 +51,7 @@ export const AuditApplicabilityAspectSchema = z.object({
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 export type AuditApplicabilityPayload = z.infer<typeof AuditApplicabilitySchema>;

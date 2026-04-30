@@ -3,34 +3,29 @@ import { Notifier } from '@/interfaces/notifier';
 import { RealtimeEventEnum } from '@/enums/realtime-events';
 import { AuditProcessPayload } from '@/validators/audit-process.validators';
 import { AuditProcessEventType } from '@/types/audit-process.types';
+import { ScopedRealtimeAudienceNotifier } from '@/services/scoped-realtime-audience-notifier';
 
 /**
  * Handles realtime notification for Audit Process events.
  */
 export class AuditProcessNotifier implements Notifier<AuditProcessPayload> {
+  private readonly audienceNotifier: ScopedRealtimeAudienceNotifier;
+
   /**
    * Creates an instance of AuditProcessNotifier.
    *
    * @param realtimeGateway - The RealtimeGateway instance to use for notifications.
    */
-  constructor(private readonly realtimeGateway: RealtimeGateway) {}
+  constructor(realtimeGateway: RealtimeGateway) {
+    this.audienceNotifier = new ScopedRealtimeAudienceNotifier(realtimeGateway);
+  }
 
   /**
    * Notifies clients about an Audit Process event.
    */
   notify(payload: AuditProcessPayload): void {
     const event = this.mapEvent(payload.event);
-    if (payload.corporateIds.length > 0) {
-      for (const corporateId of payload.corporateIds) {
-        const room = `corporate:${corporateId}`;
-        this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      }
-
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyMultiCorporate(payload, event);
   }
 
   /**

@@ -17,6 +17,7 @@ export const AuditExecutionSchema = z.object({
   corporateId: z.number().nullable(),
   customerId: z.number(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 export type AuditExecutionPayload = z.infer<typeof AuditExecutionSchema>;

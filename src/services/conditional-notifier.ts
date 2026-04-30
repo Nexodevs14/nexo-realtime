@@ -5,17 +5,22 @@ import {
   ConditionalRequirementPayload,
 } from '@/validators/conditional.validators';
 import { ConditionalEventType, ConditionalRequirementEventType } from '@/types/conditional.types';
+import { ScopedRealtimeAudienceNotifier } from '@/services/scoped-realtime-audience-notifier';
 
 /**
  * Handles realtime notification for Conditional module events.
  */
 export class ConditionalNotifier {
+  private readonly audienceNotifier: ScopedRealtimeAudienceNotifier;
+
   /**
    * Creates an instance of ConditionalNotifier.
    *
    * @param realtimeGateway - Gateway abstraction used to emit websocket events.
    */
-  constructor(private readonly realtimeGateway: RealtimeGateway) {}
+  constructor(realtimeGateway: RealtimeGateway) {
+    this.audienceNotifier = new ScopedRealtimeAudienceNotifier(realtimeGateway);
+  }
 
   /**
    * Notifies subscribed clients about a Conditional CRUD event.
@@ -24,14 +29,7 @@ export class ConditionalNotifier {
    */
   notifyConditional(payload: ConditionalPayload): void {
     const event = this.mapConditionalEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
@@ -41,14 +39,7 @@ export class ConditionalNotifier {
    */
   notifyConditionalRequirement(payload: ConditionalRequirementPayload): void {
     const event = this.mapConditionalRequirementEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**

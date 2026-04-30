@@ -14,6 +14,7 @@ import {
   ComplianceExecutionSubjectCommentEventType,
   ComplianceExecutionSubjectEventType,
 } from '@/types/compliance-execution.types';
+import { ScopedRealtimeAudienceNotifier } from '@/services/scoped-realtime-audience-notifier';
 
 /**
  * Handles realtime notification for Compliance Execution related events.
@@ -25,12 +26,16 @@ import {
  * The actor user is excluded from the broadcast.
  */
 export class ComplianceExecutionRealtimeNotifier {
+  private readonly audienceNotifier: ScopedRealtimeAudienceNotifier;
+
   /**
    * Creates an instance of ComplianceExecutionRealtimeNotifier.
    *
    * @param realtimeGateway - Gateway abstraction used to emit websocket events.
    */
-  constructor(private readonly realtimeGateway: RealtimeGateway) {}
+  constructor(realtimeGateway: RealtimeGateway) {
+    this.audienceNotifier = new ScopedRealtimeAudienceNotifier(realtimeGateway);
+  }
 
   /**
    * Notifies subscribed clients about a Compliance Execution lifecycle event.
@@ -39,14 +44,7 @@ export class ComplianceExecutionRealtimeNotifier {
    */
   notifyExecution(payload: ComplianceExecutionPayload): void {
     const event = this.mapExecutionEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
@@ -56,14 +54,7 @@ export class ComplianceExecutionRealtimeNotifier {
    */
   notifyAspect(payload: ComplianceExecutionAspectPayload): void {
     const event = this.mapAspectEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
@@ -73,14 +64,7 @@ export class ComplianceExecutionRealtimeNotifier {
    */
   notifySubject(payload: ComplianceExecutionSubjectPayload): void {
     const event = this.mapSubjectEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
@@ -90,14 +74,7 @@ export class ComplianceExecutionRealtimeNotifier {
    */
   notifyComment(payload: ComplianceExecutionSubjectCommentPayload): void {
     const event = this.mapCommentEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
@@ -107,14 +84,7 @@ export class ComplianceExecutionRealtimeNotifier {
    */
   notifyEvidence(payload: ComplianceEvidencePayload): void {
     const event = this.mapEvidenceEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**

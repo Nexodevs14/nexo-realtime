@@ -23,6 +23,7 @@ export const ComplianceExecutionSchema = z.object({
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**
@@ -39,6 +40,7 @@ export const ComplianceExecutionAspectSchema = z.object({
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**
@@ -56,6 +58,7 @@ export const ComplianceExecutionSubjectSchema = z.object({
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**
@@ -76,6 +79,7 @@ export const ComplianceExecutionSubjectCommentSchema = z.object({
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**
@@ -98,6 +102,7 @@ export const ComplianceEvidenceSchema = z.object({
   corporateId: z.number().int().positive().nullable(),
   customerId: z.number().int().positive(),
   actorId: z.number().int().positive(),
+  systemUserIds: z.array(z.number().int().positive()).default([]),
 });
 
 /**

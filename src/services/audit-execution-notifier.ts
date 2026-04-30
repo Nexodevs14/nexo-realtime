@@ -3,31 +3,30 @@ import { Notifier } from '@/interfaces/notifier';
 import { RealtimeEventEnum } from '@/enums/realtime-events';
 import { AuditExecutionPayload } from '@/validators/audit-execution.validators';
 import { AuditExecutionEventType } from '@/types/audit-execution.types';
+import { ScopedRealtimeAudienceNotifier } from '@/services/scoped-realtime-audience-notifier';
 
 /**
  * Handles realtime notification for Audit Execution events.
  * Always emits to corporate:{idCorporate}; idCorporate is required in payload.
  */
 export class AuditExecutionNotifier implements Notifier<AuditExecutionPayload> {
+  private readonly audienceNotifier: ScopedRealtimeAudienceNotifier;
+
   /**
    * Creates an instance of AuditExecutionNotifier.
    *
    * @param realtimeGateway - The RealtimeGateway instance to use for notifications.
    */
-  constructor(private readonly realtimeGateway: RealtimeGateway) {}
+  constructor(realtimeGateway: RealtimeGateway) {
+    this.audienceNotifier = new ScopedRealtimeAudienceNotifier(realtimeGateway);
+  }
 
   /**
    * Notifies clients about an Audit Execution event.
    */
   notify(payload: AuditExecutionPayload): void {
     const event = this.mapEvent(payload.event);
-    if (payload.corporateId !== null) {
-      const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
-      return;
-    }
-    const room = `customer:${payload.customerId}`;
-    this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+    this.audienceNotifier.notifyScoped(payload, event);
   }
 
   /**
