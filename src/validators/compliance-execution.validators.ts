@@ -111,7 +111,7 @@ export const ComplianceEvidenceSchema = z.object({
 export const ComplianceExecutionExportCompletedSchema = z.object({
   userId: z.number().int().positive(),
   idComplianceExecution: z.number().int().positive(),
-  type: z.string().min(1),
+  type: z.string().min(1).optional().nullable(),
   name: z.string().min(1),
   fileUrl: z.url(),
   clientSessionId: z.uuid(),
