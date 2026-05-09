@@ -24,10 +24,18 @@ export class ScopedRealtimeAudienceNotifier {
   notifyScoped<T extends ScopedRealtimeAudiencePayload>(payload: T, event: string): void {
     if (payload.corporateId !== null) {
       const room = `corporate:${payload.corporateId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      if (payload.includeActor) {
+        this.realtimeGateway.broadcastToRoom(room, event, payload);
+      } else {
+        this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      }
     } else if (payload.customerId !== null) {
       const room = `customer:${payload.customerId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      if (payload.includeActor) {
+        this.realtimeGateway.broadcastToRoom(room, event, payload);
+      } else {
+        this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      }
     }
 
     this.notifySystemUsers(payload.systemUserIds, payload.actorId, event, payload);
@@ -43,11 +51,19 @@ export class ScopedRealtimeAudienceNotifier {
     if (payload.corporateIds.length > 0) {
       for (const corporateId of payload.corporateIds) {
         const room = `corporate:${corporateId}`;
-        this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+        if (payload.includeActor) {
+          this.realtimeGateway.broadcastToRoom(room, event, payload);
+        } else {
+          this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+        }
       }
     } else if (payload.customerId !== null) {
       const room = `customer:${payload.customerId}`;
-      this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      if (payload.includeActor) {
+        this.realtimeGateway.broadcastToRoom(room, event, payload);
+      } else {
+        this.realtimeGateway.broadcastToRoomExceptUser(room, payload.actorId, event, payload);
+      }
     }
 
     this.notifySystemUsers(payload.systemUserIds, payload.actorId, event, payload);

@@ -6,6 +6,7 @@ export interface ScopedRealtimeAudiencePayload {
   customerId: number | null;
   corporateId: number | null;
   systemUserIds: number[];
+  includeActor?: boolean;
 }
 
 /**
@@ -16,4 +17,5 @@ export interface MultiCorporateRealtimeAudiencePayload {
   customerId: number | null;
   corporateIds: number[];
   systemUserIds: number[];
+  includeActor?: boolean;
 }
