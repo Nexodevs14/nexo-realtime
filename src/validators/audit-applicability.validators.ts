@@ -12,6 +12,7 @@ export const AuditApplicabilitySchema = z.object({
     AuditApplicabilityEventType.STARTED,
     AuditApplicabilityEventType.STATUS_CHANGED,
     AuditApplicabilityEventType.COMPLETED,
+    AuditApplicabilityEventType.COMPLIANCE_SUBJECTS_GENERATED,
   ]),
   idAuditApplicability: z.number(),
   idAuditExecution: z.number(),

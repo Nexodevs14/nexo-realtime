@@ -5,6 +5,7 @@ export enum AuditApplicabilityEventType {
   STARTED = 'started',
   STATUS_CHANGED = 'status_changed',
   COMPLETED = 'completed',
+  COMPLIANCE_SUBJECTS_GENERATED = 'compliance_subjects_generated',
 }
 
 /**
