@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { ValidationError } from '@/errors/api.errors';
+import { ComplianceActionPlanExportNotifier } from '@/services/action-plan-export-notifier';
 import { ComplianceActionPlanRealtimeNotifier } from '@/services/action-plan-realtime-notifier';
 import { ApiResponse, ok } from '@/types/http.types';
 import {
+  ComplianceActionPlanExportCompletedSchema,
+  ComplianceActionPlanReportExportCompletedSchema,
   ComplianceActionPlanSchema,
   ComplianceActionPlanTaskCommentSchema,
   ComplianceActionPlanTaskSchema,
@@ -19,9 +22,14 @@ export class ComplianceActionPlanRealtimeController {
   /**
    * Creates an instance of ComplianceActionPlanRealtimeController.
    *
-   * @param notifier - Service responsible for dispatching action-plan realtime notifications.
+   * @param notifier - Service responsible for dispatching action-plan operational realtime notifications.
+   * @param exportNotifier - Service responsible for dispatching generated-file completion notifications.
+   * @param reportExportNotifier - Service responsible for dispatching Excel report export completion notifications.
    */
-  constructor(private readonly notifier: ComplianceActionPlanRealtimeNotifier) {}
+  constructor(
+    private readonly notifier: ComplianceActionPlanRealtimeNotifier,
+    private readonly exportNotifier: ComplianceActionPlanExportNotifier
+  ) {}
 
   /**
    * Handles Action Plan lifecycle realtime event requests.
@@ -39,6 +47,70 @@ export class ComplianceActionPlanRealtimeController {
       const payload = ComplianceActionPlanSchema.parse(req.body);
       this.notifier.notifyActionPlan(payload);
       ok(res, null, 'Realtime notification dispatched');
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return next(
+          new ValidationError(
+            error.issues.map((issue) => ({
+              field: issue.path.join('.'),
+              message: issue.message,
+            }))
+          )
+        );
+      }
+
+      next(error);
+    }
+  };
+
+  /**
+   * Handles Action Plan export completed realtime event requests.
+   *
+   * @param req - Express request.
+   * @param res - Express response.
+   * @param next - Express next middleware.
+   */
+  handleExportCompleted = (
+    req: Request,
+    res: Response<ApiResponse<null>>,
+    next: NextFunction
+  ): void => {
+    try {
+      const payload = ComplianceActionPlanExportCompletedSchema.parse(req.body);
+      this.exportNotifier.notify(payload);
+      ok(res, null, 'Realtime export notification dispatched');
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return next(
+          new ValidationError(
+            error.issues.map((issue) => ({
+              field: issue.path.join('.'),
+              message: issue.message,
+            }))
+          )
+        );
+      }
+
+      next(error);
+    }
+  };
+
+  /**
+   * Handles Action Plan report export completed realtime event requests.
+   *
+   * @param req - Express request.
+   * @param res - Express response.
+   * @param next - Express next middleware.
+   */
+  handleReportExportCompleted = (
+    req: Request,
+    res: Response<ApiResponse<null>>,
+    next: NextFunction
+  ): void => {
+    try {
+      const payload = ComplianceActionPlanReportExportCompletedSchema.parse(req.body);
+      this.exportNotifier.notify(payload);
+      ok(res, null, 'Realtime export notification dispatched');
     } catch (error) {
       if (error instanceof ZodError) {
         return next(

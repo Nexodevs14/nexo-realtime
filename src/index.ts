@@ -31,6 +31,8 @@ import { ComplianceExecutionExportNotifier } from '@/services/compliance-executi
 import { ComplianceExecutionRealtimeNotifier } from '@/services/compliance-execution-realtime-notifier';
 import { ComplianceExecutionRealtimeController } from '@/controllers/compliance-execution-realtime.controller';
 import { createComplianceExecutionRealtimeRoutes } from '@/routes/compliance-execution-realtime.routes';
+import { ComplianceActionPlanExportNotifier } from '@/services/action-plan-export-notifier';
+import { ComplianceActionPlanReportExportNotifier } from '@/services/action-plan-report-export-notifier';
 import { ComplianceActionPlanRealtimeNotifier } from '@/services/action-plan-realtime-notifier';
 import { ComplianceActionPlanRealtimeController } from '@/controllers/action-plan-realtime.controller';
 import { createComplianceActionPlanRealtimeRoutes } from '@/routes/action-plan-realtime.routes';
@@ -94,6 +96,12 @@ async function bootstrap(): Promise<void> {
   const complianceActionPlanRealtimeNotifier = new ComplianceActionPlanRealtimeNotifier(
     realtimeGateway
   );
+  const complianceActionPlanExportNotifier = new ComplianceActionPlanExportNotifier(
+    realtimeGateway
+  );
+  const complianceActionPlanReportExportNotifier = new ComplianceActionPlanReportExportNotifier(
+    realtimeGateway
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -120,7 +128,9 @@ async function bootstrap(): Promise<void> {
     complianceExecutionExportNotifier
   );
   const complianceActionPlanRealtimeController = new ComplianceActionPlanRealtimeController(
-    complianceActionPlanRealtimeNotifier
+    complianceActionPlanRealtimeNotifier,
+    complianceActionPlanExportNotifier,
+    complianceActionPlanReportExportNotifier
   );
 
   /**

@@ -11,6 +11,16 @@ export function createComplianceActionPlanRealtimeRoutes(
   const router = Router();
 
   router.post('/compliance-action-plan/event', serviceAuth, controller.handleActionPlanEvent);
+  router.post(
+    '/compliance-action-plan/backup-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
+  router.post(
+    '/compliance-action-plan/report-export-completed',
+    serviceAuth,
+    controller.handleReportExportCompleted
+  );
   router.post('/compliance-action-plan-task/event', serviceAuth, controller.handleTaskEvent);
   router.post(
     '/compliance-action-plan-task-comment/event',
