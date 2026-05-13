@@ -44,7 +44,6 @@ export enum RealtimeEventEnum {
   COMPLIANCE_ACTION_PLAN_STATUS_CHANGED = 'compliance_action_plan.status_changed',
   COMPLIANCE_ACTION_PLAN_COMPLETED = 'compliance_action_plan.completed',
   COMPLIANCE_ACTION_PLAN_EXPORT_COMPLETED = 'compliance_action_plan.export_completed',
-  COMPLIANCE_ACTION_PLAN_REPORT_EXPORT_COMPLETED = 'compliance_action_plan.report_export_completed',
   COMPLIANCE_ACTION_PLAN_TASK_CREATED = 'compliance_action_plan_task.created',
   COMPLIANCE_ACTION_PLAN_TASK_UPDATED = 'compliance_action_plan_task.updated',
   COMPLIANCE_ACTION_PLAN_TASK_STATUS_CHANGED = 'compliance_action_plan_task.status_changed',

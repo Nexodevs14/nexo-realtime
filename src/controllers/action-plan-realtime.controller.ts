@@ -96,38 +96,6 @@ export class ComplianceActionPlanRealtimeController {
   };
 
   /**
-   * Handles Action Plan report export completed realtime event requests.
-   *
-   * @param req - Express request.
-   * @param res - Express response.
-   * @param next - Express next middleware.
-   */
-  handleReportExportCompleted = (
-    req: Request,
-    res: Response<ApiResponse<null>>,
-    next: NextFunction
-  ): void => {
-    try {
-      const payload = ComplianceActionPlanReportExportCompletedSchema.parse(req.body);
-      this.exportNotifier.notify(payload);
-      ok(res, null, 'Realtime export notification dispatched');
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return next(
-          new ValidationError(
-            error.issues.map((issue) => ({
-              field: issue.path.join('.'),
-              message: issue.message,
-            }))
-          )
-        );
-      }
-
-      next(error);
-    }
-  };
-
-  /**
    * Handles Action Plan task realtime event requests.
    *
    * @param req - Express request.

@@ -19,7 +19,7 @@ export function createComplianceActionPlanRealtimeRoutes(
   router.post(
     '/compliance-action-plan/report-export-completed',
     serviceAuth,
-    controller.handleReportExportCompleted
+    controller.handleExportCompleted
   );
   router.post('/compliance-action-plan-task/event', serviceAuth, controller.handleTaskEvent);
   router.post(
