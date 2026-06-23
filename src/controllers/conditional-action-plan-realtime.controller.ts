@@ -1,37 +1,31 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
 import { ValidationError } from '@/errors/api.errors';
-import { ComplianceActionPlanExportNotifier } from '@/services/action-plan-export-notifier';
-import { ComplianceActionPlanRealtimeNotifier } from '@/services/action-plan-realtime-notifier';
+import { ConditionalActionPlanRealtimeNotifier } from '@/services/conditional-action-plan-realtime-notifier';
 import { ApiResponse, ok } from '@/types/http.types';
 import {
-  ComplianceActionPlanExportCompletedSchema,
-  ComplianceActionPlanSchema,
-  ComplianceActionPlanTaskCommentSchema,
-  ComplianceActionPlanTaskSchema,
-} from '@/validators/action-plan.validators';
+  ConditionalActionPlanSchema,
+  ConditionalActionPlanTaskCommentSchema,
+  ConditionalActionPlanTaskEvidenceSchema,
+  ConditionalActionPlanTaskSchema,
+} from '@/validators/conditional-action-plan.validators';
 
 /**
- * Action Plan Realtime Controller.
+ * Conditional Action Plan Realtime Controller.
  *
  * Receives events from the Laravel backend and dispatches them
  * to the websocket notification layer.
  */
-export class ComplianceActionPlanRealtimeController {
+export class ConditionalActionPlanRealtimeController {
   /**
-   * Creates an instance of ComplianceActionPlanRealtimeController.
+   * Creates an instance of ConditionalActionPlanRealtimeController.
    *
-   * @param notifier - Service responsible for dispatching action-plan operational realtime notifications.
-   * @param exportNotifier - Service responsible for dispatching generated-file completion notifications.
-   * @param reportExportNotifier - Service responsible for dispatching Excel report export completion notifications.
+   * @param notifier - Service responsible for dispatching Conditional Action Plan realtime notifications.
    */
-  constructor(
-    private readonly notifier: ComplianceActionPlanRealtimeNotifier,
-    private readonly exportNotifier: ComplianceActionPlanExportNotifier
-  ) {}
+  constructor(private readonly notifier: ConditionalActionPlanRealtimeNotifier) {}
 
   /**
-   * Handles Action Plan lifecycle realtime event requests.
+   * Handles Conditional Action Plan lifecycle realtime event requests.
    *
    * @param req - Express request.
    * @param res - Express response.
@@ -43,7 +37,7 @@ export class ComplianceActionPlanRealtimeController {
     next: NextFunction
   ): void => {
     try {
-      const payload = ComplianceActionPlanSchema.parse(req.body);
+      const payload = ConditionalActionPlanSchema.parse(req.body);
       this.notifier.notifyActionPlan(payload);
       ok(res, null, 'Realtime notification dispatched');
     } catch (error) {
@@ -63,39 +57,7 @@ export class ComplianceActionPlanRealtimeController {
   };
 
   /**
-   * Handles Action Plan export completed realtime event requests.
-   *
-   * @param req - Express request.
-   * @param res - Express response.
-   * @param next - Express next middleware.
-   */
-  handleExportCompleted = (
-    req: Request,
-    res: Response<ApiResponse<null>>,
-    next: NextFunction
-  ): void => {
-    try {
-      const payload = ComplianceActionPlanExportCompletedSchema.parse(req.body);
-      this.exportNotifier.notify(payload);
-      ok(res, null, 'Realtime export notification dispatched');
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return next(
-          new ValidationError(
-            error.issues.map((issue) => ({
-              field: issue.path.join('.'),
-              message: issue.message,
-            }))
-          )
-        );
-      }
-
-      next(error);
-    }
-  };
-
-  /**
-   * Handles Action Plan task realtime event requests.
+   * Handles Conditional Action Plan task realtime event requests.
    *
    * @param req - Express request.
    * @param res - Express response.
@@ -103,7 +65,7 @@ export class ComplianceActionPlanRealtimeController {
    */
   handleTaskEvent = (req: Request, res: Response<ApiResponse<null>>, next: NextFunction): void => {
     try {
-      const payload = ComplianceActionPlanTaskSchema.parse(req.body);
+      const payload = ConditionalActionPlanTaskSchema.parse(req.body);
       this.notifier.notifyTask(payload);
       ok(res, null, 'Realtime notification dispatched');
     } catch (error) {
@@ -123,7 +85,7 @@ export class ComplianceActionPlanRealtimeController {
   };
 
   /**
-   * Handles Action Plan task comment realtime event requests.
+   * Handles Conditional Action Plan task comment realtime event requests.
    *
    * @param req - Express request.
    * @param res - Express response.
@@ -135,8 +97,40 @@ export class ComplianceActionPlanRealtimeController {
     next: NextFunction
   ): void => {
     try {
-      const payload = ComplianceActionPlanTaskCommentSchema.parse(req.body);
+      const payload = ConditionalActionPlanTaskCommentSchema.parse(req.body);
       this.notifier.notifyTaskComment(payload);
+      ok(res, null, 'Realtime notification dispatched');
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return next(
+          new ValidationError(
+            error.issues.map((issue) => ({
+              field: issue.path.join('.'),
+              message: issue.message,
+            }))
+          )
+        );
+      }
+
+      next(error);
+    }
+  };
+
+  /**
+   * Handles Conditional Action Plan task evidence realtime event requests.
+   *
+   * @param req - Express request.
+   * @param res - Express response.
+   * @param next - Express next middleware.
+   */
+  handleTaskEvidenceEvent = (
+    req: Request,
+    res: Response<ApiResponse<null>>,
+    next: NextFunction
+  ): void => {
+    try {
+      const payload = ConditionalActionPlanTaskEvidenceSchema.parse(req.body);
+      this.notifier.notifyTaskEvidence(payload);
       ok(res, null, 'Realtime notification dispatched');
     } catch (error) {
       if (error instanceof ZodError) {

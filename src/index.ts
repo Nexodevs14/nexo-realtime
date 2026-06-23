@@ -35,6 +35,9 @@ import { ComplianceActionPlanExportNotifier } from '@/services/action-plan-expor
 import { ComplianceActionPlanRealtimeNotifier } from '@/services/action-plan-realtime-notifier';
 import { ComplianceActionPlanRealtimeController } from '@/controllers/action-plan-realtime.controller';
 import { createComplianceActionPlanRealtimeRoutes } from '@/routes/action-plan-realtime.routes';
+import { ConditionalActionPlanRealtimeNotifier } from '@/services/conditional-action-plan-realtime-notifier';
+import { ConditionalActionPlanRealtimeController } from '@/controllers/conditional-action-plan-realtime.controller';
+import { createConditionalActionPlanRealtimeRoutes } from '@/routes/conditional-action-plan-realtime.routes';
 import { notFoundHandler } from '@/middlewares/not-found.middleware';
 import { errorHandler } from '@/middlewares/error-handler';
 
@@ -98,6 +101,9 @@ async function bootstrap(): Promise<void> {
   const complianceActionPlanExportNotifier = new ComplianceActionPlanExportNotifier(
     realtimeGateway
   );
+  const conditionalActionPlanRealtimeNotifier = new ConditionalActionPlanRealtimeNotifier(
+    realtimeGateway
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -126,6 +132,9 @@ async function bootstrap(): Promise<void> {
   const complianceActionPlanRealtimeController = new ComplianceActionPlanRealtimeController(
     complianceActionPlanRealtimeNotifier,
     complianceActionPlanExportNotifier
+  );
+  const conditionalActionPlanRealtimeController = new ConditionalActionPlanRealtimeController(
+    conditionalActionPlanRealtimeNotifier
   );
 
   /**
@@ -158,6 +167,11 @@ async function bootstrap(): Promise<void> {
   app.use(
     '/api/v1/realtime',
     createComplianceActionPlanRealtimeRoutes(complianceActionPlanRealtimeController)
+  );
+
+  app.use(
+    '/api/v1/realtime',
+    createConditionalActionPlanRealtimeRoutes(conditionalActionPlanRealtimeController)
   );
 
   /**

@@ -39,19 +39,6 @@ export const ComplianceActionPlanExportCompletedSchema = z.object({
 });
 
 /**
- * Schema for Action Plan Excel report export completion payloads (distinct from backup/generated-file).
- */
-export const ComplianceActionPlanReportExportCompletedSchema = z.object({
-  userId: z.number().int().positive(),
-  idComplianceActionPlan: z.number().int().positive(),
-  idComplianceExecution: z.number().int().positive(),
-  fileUrl: z.url(),
-  name: z.string().min(1),
-  clientSessionId: z.uuid(),
-  executionType: z.string().min(1),
-});
-
-/**
  * Schema for Action Plan task realtime event payloads.
  */
 export const ComplianceActionPlanTaskSchema = z.object({
@@ -106,11 +93,4 @@ export type ComplianceActionPlanTaskCommentPayload = z.infer<
  */
 export type ComplianceActionPlanExportCompletedPayload = z.infer<
   typeof ComplianceActionPlanExportCompletedSchema
->;
-
-/**
- * Validated payload when an Action Plan Excel report export is ready for download.
- */
-export type ComplianceActionPlanReportExportCompletedPayload = z.infer<
-  typeof ComplianceActionPlanReportExportCompletedSchema
 >;
