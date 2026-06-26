@@ -54,6 +54,7 @@ export enum RealtimeEventEnum {
   CONDITIONAL_ACTION_PLAN_UPDATED = 'conditional_action_plan.updated',
   CONDITIONAL_ACTION_PLAN_STATUS_CHANGED = 'conditional_action_plan.status_changed',
   CONDITIONAL_ACTION_PLAN_COMPLETED = 'conditional_action_plan.completed',
+  CONDITIONAL_ACTION_PLAN_EXPORT_COMPLETED = 'conditional_action_plan.export_completed',
   CONDITIONAL_ACTION_PLAN_TASK_CREATED = 'conditional_action_plan_task.created',
   CONDITIONAL_ACTION_PLAN_TASK_UPDATED = 'conditional_action_plan_task.updated',
   CONDITIONAL_ACTION_PLAN_TASK_STATUS_CHANGED = 'conditional_action_plan_task.status_changed',

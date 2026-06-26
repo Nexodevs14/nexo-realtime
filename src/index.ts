@@ -35,6 +35,7 @@ import { ComplianceActionPlanExportNotifier } from '@/services/action-plan-expor
 import { ComplianceActionPlanRealtimeNotifier } from '@/services/action-plan-realtime-notifier';
 import { ComplianceActionPlanRealtimeController } from '@/controllers/action-plan-realtime.controller';
 import { createComplianceActionPlanRealtimeRoutes } from '@/routes/action-plan-realtime.routes';
+import { ConditionalActionPlanExportNotifier } from '@/services/conditional-action-plan-export-notifier';
 import { ConditionalActionPlanRealtimeNotifier } from '@/services/conditional-action-plan-realtime-notifier';
 import { ConditionalActionPlanRealtimeController } from '@/controllers/conditional-action-plan-realtime.controller';
 import { createConditionalActionPlanRealtimeRoutes } from '@/routes/conditional-action-plan-realtime.routes';
@@ -104,6 +105,9 @@ async function bootstrap(): Promise<void> {
   const conditionalActionPlanRealtimeNotifier = new ConditionalActionPlanRealtimeNotifier(
     realtimeGateway
   );
+  const conditionalActionPlanExportNotifier = new ConditionalActionPlanExportNotifier(
+    realtimeGateway
+  );
 
   /**
    * ------------------------------------------------------------------------
@@ -134,7 +138,8 @@ async function bootstrap(): Promise<void> {
     complianceActionPlanExportNotifier
   );
   const conditionalActionPlanRealtimeController = new ConditionalActionPlanRealtimeController(
-    conditionalActionPlanRealtimeNotifier
+    conditionalActionPlanRealtimeNotifier,
+    conditionalActionPlanExportNotifier
   );
 
   /**

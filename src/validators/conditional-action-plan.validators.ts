@@ -26,6 +26,17 @@ export const ConditionalActionPlanSchema = z.object({
 });
 
 /**
+ * Schema for Conditional Action Plan generated-file completion payloads.
+ */
+export const ConditionalActionPlanExportCompletedSchema = z.object({
+  userId: z.number().int().positive(),
+  idConditionalActionPlan: z.number().int().positive(),
+  fileUrl: z.url(),
+  name: z.string().min(1),
+  clientSessionId: z.uuid(),
+});
+
+/**
  * Schema for Conditional Action Plan task realtime event payloads.
  */
 export const ConditionalActionPlanTaskSchema = z.object({
@@ -92,6 +103,9 @@ export const ConditionalActionPlanTaskEvidenceSchema = z.object({
 });
 
 export type ConditionalActionPlanPayload = z.infer<typeof ConditionalActionPlanSchema>;
+export type ConditionalActionPlanExportCompletedPayload = z.infer<
+  typeof ConditionalActionPlanExportCompletedSchema
+>;
 export type ConditionalActionPlanTaskPayload = z.infer<typeof ConditionalActionPlanTaskSchema>;
 export type ConditionalActionPlanTaskCommentPayload = z.infer<
   typeof ConditionalActionPlanTaskCommentSchema

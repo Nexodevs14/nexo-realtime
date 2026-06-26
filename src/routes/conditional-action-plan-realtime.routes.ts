@@ -11,6 +11,16 @@ export function createConditionalActionPlanRealtimeRoutes(
   const router = Router();
 
   router.post('/conditional-action-plan/event', serviceAuth, controller.handleActionPlanEvent);
+  router.post(
+    '/conditional-action-plan/backup-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
+  router.post(
+    '/conditional-action-plan/report-export-completed',
+    serviceAuth,
+    controller.handleExportCompleted
+  );
   router.post('/conditional-action-plan-task/event', serviceAuth, controller.handleTaskEvent);
   router.post(
     '/conditional-action-plan-task-comment/event',
