@@ -23,6 +23,7 @@ export const ConditionalActionPlanSchema = z.object({
   customerId: z.number().int().positive().nullable(),
   actorId: z.number().int().positive(),
   systemUserIds: z.array(z.number().int().positive()).default([]),
+  includeActor: z.boolean().optional().default(false),
 });
 
 /**
@@ -55,6 +56,7 @@ export const ConditionalActionPlanTaskSchema = z.object({
   customerId: z.number().int().positive().nullable(),
   actorId: z.number().int().positive(),
   systemUserIds: z.array(z.number().int().positive()).default([]),
+  includeActor: z.boolean().optional().default(false),
 });
 
 /**
@@ -76,6 +78,7 @@ export const ConditionalActionPlanTaskCommentSchema = z.object({
   customerId: z.number().int().positive().nullable(),
   actorId: z.number().int().positive(),
   systemUserIds: z.array(z.number().int().positive()).default([]),
+  includeActor: z.boolean().optional().default(false),
 });
 
 /**
@@ -100,6 +103,7 @@ export const ConditionalActionPlanTaskEvidenceSchema = z.object({
   customerId: z.number().int().positive().nullable(),
   actorId: z.number().int().positive(),
   systemUserIds: z.array(z.number().int().positive()).default([]),
+  includeActor: z.boolean().optional().default(false),
 });
 
 export type ConditionalActionPlanPayload = z.infer<typeof ConditionalActionPlanSchema>;
