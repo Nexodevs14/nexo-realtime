@@ -64,4 +64,5 @@ export enum RealtimeEventEnum {
   CONDITIONAL_ACTION_PLAN_TASK_EVIDENCE_CREATED = 'conditional_action_plan_task_evidence.created',
   CONDITIONAL_ACTION_PLAN_TASK_EVIDENCE_UPDATED = 'conditional_action_plan_task_evidence.updated',
   CONDITIONAL_ACTION_PLAN_TASK_EVIDENCE_DELETED = 'conditional_action_plan_task_evidence.deleted',
+  DASHBOARD_CONTROL_PANEL_EXPORT_COMPLETED = 'dashboard.control_panel_export_completed',
 }

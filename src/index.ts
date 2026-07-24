@@ -39,6 +39,9 @@ import { ConditionalActionPlanExportNotifier } from '@/services/conditional-acti
 import { ConditionalActionPlanRealtimeNotifier } from '@/services/conditional-action-plan-realtime-notifier';
 import { ConditionalActionPlanRealtimeController } from '@/controllers/conditional-action-plan-realtime.controller';
 import { createConditionalActionPlanRealtimeRoutes } from '@/routes/conditional-action-plan-realtime.routes';
+import { DashboardExportNotifier } from '@/services/dashboard-export-notifier';
+import { DashboardRealtimeController } from '@/controllers/dashboard-realtime.controller';
+import { createDashboardRealtimeRoutes } from '@/routes/dashboard-realtime.routes';
 import { notFoundHandler } from '@/middlewares/not-found.middleware';
 import { errorHandler } from '@/middlewares/error-handler';
 
@@ -108,6 +111,7 @@ async function bootstrap(): Promise<void> {
   const conditionalActionPlanExportNotifier = new ConditionalActionPlanExportNotifier(
     realtimeGateway
   );
+  const dashboardExportNotifier = new DashboardExportNotifier(realtimeGateway);
 
   /**
    * ------------------------------------------------------------------------
@@ -141,6 +145,7 @@ async function bootstrap(): Promise<void> {
     conditionalActionPlanRealtimeNotifier,
     conditionalActionPlanExportNotifier
   );
+  const dashboardRealtimeController = new DashboardRealtimeController(dashboardExportNotifier);
 
   /**
    * ------------------------------------------------------------------------
@@ -178,6 +183,8 @@ async function bootstrap(): Promise<void> {
     '/api/v1/realtime',
     createConditionalActionPlanRealtimeRoutes(conditionalActionPlanRealtimeController)
   );
+
+  app.use('/api/v1/realtime', createDashboardRealtimeRoutes(dashboardRealtimeController));
 
   /**
    * ------------------------------------------------------------------------
