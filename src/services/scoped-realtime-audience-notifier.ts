@@ -19,7 +19,8 @@ export class ScopedRealtimeAudienceNotifier {
    * Notify a single-scope audience.
    *
    * The event is emitted to either the corporate room or the fallback customer room,
-   * excluding the actor, and then to each supplemental system user.
+   * excluding the actor unless explicitly requested, and then to each
+   * supplemental system user.
    */
   notifyScoped<T extends ScopedRealtimeAudiencePayload>(payload: T, event: string): void {
     if (payload.corporateId !== null) {
@@ -38,7 +39,13 @@ export class ScopedRealtimeAudienceNotifier {
       }
     }
 
-    this.notifySystemUsers(payload.systemUserIds, payload.actorId, event, payload);
+    this.notifySystemUsers(
+      payload.systemUserIds,
+      payload.actorId,
+      event,
+      payload,
+      payload.includeActor ?? false
+    );
   }
 
   /**
@@ -66,20 +73,28 @@ export class ScopedRealtimeAudienceNotifier {
       }
     }
 
-    this.notifySystemUsers(payload.systemUserIds, payload.actorId, event, payload);
+    this.notifySystemUsers(
+      payload.systemUserIds,
+      payload.actorId,
+      event,
+      payload,
+      payload.includeActor ?? false
+    );
   }
 
   /**
-   * Notify each resolved system user excluding the actor and removing duplicates.
+   * Notify each resolved system user, optionally including the actor, while
+   * removing duplicate user identifiers.
    */
   private notifySystemUsers<T>(
     systemUserIds: number[],
     actorId: number,
     event: string,
-    payload: T
+    payload: T,
+    includeActor: boolean
   ): void {
     for (const userId of new Set(systemUserIds)) {
-      if (userId === actorId) {
+      if (userId === actorId && !includeActor) {
         continue;
       }
 
