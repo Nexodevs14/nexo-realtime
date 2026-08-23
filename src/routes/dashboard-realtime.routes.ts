@@ -12,6 +12,7 @@ export function createDashboardRealtimeRoutes(controller: DashboardRealtimeContr
   const router = Router();
 
   router.post('/dashboard/report-export-completed', serviceAuth, controller.handleExportCompleted);
+  router.post('/dashboard/report-export-failed', serviceAuth, controller.handleExportFailed);
 
   return router;
 }
